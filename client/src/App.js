@@ -14,6 +14,8 @@ function App() {
   console.log('test');
   const socket = socketClient(
     `${process.env.REACT_APP_SERVER_SCHEME}${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`
+    // { withCredentials: true }
+    // { transports: ['websocket', 'polling'] }
   );
 
   socket.on('connection', () => {

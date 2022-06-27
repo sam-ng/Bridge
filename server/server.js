@@ -12,17 +12,14 @@ app.use(cors);
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    // origin: `${process.env.SCHEME}${process.env.IP}:${process.env.CLIENT_PORT}`,
-    origin: '*',
+    origin: `${process.env.SCHEME}${process.env.DOMAIN}:${process.env.CLIENT_PORT}`,
     methods: ['GET', 'POST'],
-    credentials: true,
   },
 });
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 app.get('/', (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
   res.send('hello');
 });
 

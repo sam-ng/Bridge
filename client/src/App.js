@@ -8,14 +8,9 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 
 function App() {
-  console.log(
-    `${process.env.REACT_APP_SERVER_SCHEME}${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`
-  );
-  console.log('test');
+  console.log('render');
   const socket = socketClient(
     `${process.env.REACT_APP_SERVER_SCHEME}${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`
-    // { withCredentials: true }
-    // { transports: ['websocket', 'polling'] }
   );
 
   socket.on('connection', () => {

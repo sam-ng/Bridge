@@ -5,6 +5,9 @@ module.exports = {
       flex: {
         3: '3 3 auto',
       },
+      fontFamily: {
+        Rubik: ['Rubik', 'sans-serif'],
+      },
     },
   },
   plugins: [],

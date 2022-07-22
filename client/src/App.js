@@ -1,4 +1,5 @@
 import ReactDom from 'react-dom/client';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import socketClient from 'socket.io-client';
 
@@ -8,7 +9,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 
 function App() {
-  console.log('render');
+  const [token, setToken] = useState();
+
   const socket = socketClient(
     `${process.env.REACT_APP_SERVER_SCHEME}${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`
   );
@@ -17,7 +19,9 @@ function App() {
     console.log('client side connected');
   });
 
-  return (
+  return !token ? (
+    <Login setToken={setToken} />
+  ) : (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<Home />} />

@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
-const LoginCard = () => {
+const LoginCard = ({ setToken }) => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  // const
+  const [username, setUsername] = useState();
+  const [password, setPassword] = useState();
+
+  const handleSubmit = (event) => {
+    alert('You have submitted the form.');
+  };
 
   return (
     <div className='w-full max-w-xs'>
       <form
         className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
         novalidate='novalidate'
+        onSubmit={handleSubmit}
       >
         <div className='mb-4'>
           <label
@@ -25,6 +31,7 @@ const LoginCard = () => {
             type='text'
             name='username'
             placeholder='Username'
+            onChange={(e) => setUsername(e.target.value)}
             required
           ></input>
         </div>
@@ -38,6 +45,7 @@ const LoginCard = () => {
             type='password'
             name='password'
             placeholder='Super Secret Password'
+            onChange={(e) => setPassword(e.target.value)}
             required
           ></input>
         </div>

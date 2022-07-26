@@ -1,16 +1,24 @@
 import { useState } from 'react';
+import { signupUser } from '../services/login';
 
-const LoginCard = ({ setToken }) => {
+const SignupCard = ({ setToken }) => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
+  const [email, setEmail] = useState();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    alert('You have submitted the form.');
+    try {
+      const res = await signupUser({ username, password, email });
+      console.log(res);
+      console.log(document.cookie);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -20,6 +28,23 @@ const LoginCard = ({ setToken }) => {
         novalidate='novalidate'
         onSubmit={handleSubmit}
       >
+        <div className='mb-4'>
+          <label
+            className='block text-gray-700 text-sm font-bold mb-2'
+            for='email'
+          >
+            Email
+          </label>
+          <input
+            className='shadow appearance-none border rounded w-full px-3 py-2 text-gray-700 leading-tight focus:shadow-outline'
+            id='email'
+            type='text'
+            name='email'
+            placeholder='Email'
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          ></input>
+        </div>
         <div className='mb-4'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'
@@ -60,7 +85,7 @@ const LoginCard = ({ setToken }) => {
             type='submit'
             formnovalidate
           >
-            Sign In
+            Sign Up
           </button>
           <a
             className='font-bold text-sm text-blue-500 hover:text-blue-800'
@@ -74,4 +99,4 @@ const LoginCard = ({ setToken }) => {
   );
 };
 
-export default LoginCard;
+export default SignupCard;

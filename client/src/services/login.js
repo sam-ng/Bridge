@@ -4,6 +4,7 @@ export const signupUser = async (credentials) => {
   return fetch(`${serverURL}/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
     body: JSON.stringify(credentials),
   }).then((data) => data.json());
 };

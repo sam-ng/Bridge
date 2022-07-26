@@ -26,7 +26,12 @@ connectDB().then((err) => {
   if (err) throw err;
 
   const app = express();
-  app.use(cors());
+  app.use(
+    cors({
+      origin: `http://localhost:${process.env.CLIENT_PORT}`,
+      credentials: true,
+    })
+  );
   app.use(bodyParser.urlencoded({ extended: false }));
   app.use(bodyParser.json());
   app.use(cookieParser());

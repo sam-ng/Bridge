@@ -17,13 +17,12 @@ const LoginCard = ({ setToken }) => {
     <div className='w-full max-w-xs'>
       <form
         className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
-        novalidate='novalidate'
         onSubmit={handleSubmit}
       >
         <div className='mb-4'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'
-            for='username'
+            htmlFor='username'
           >
             Username
           </label>
@@ -40,7 +39,7 @@ const LoginCard = ({ setToken }) => {
         <div className='mb-6'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'
-            for='password'
+            htmlFor='password'
           >
             Password
           </label>
@@ -58,10 +57,15 @@ const LoginCard = ({ setToken }) => {
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded focus:shadow-outline'
             type='submit'
-            formnovalidate
           >
             Sign In
           </button>
+          <a
+            className='font-bold text-sm text-blue-500 hover:text-blue-800'
+            href='/signup'
+          >
+            Register
+          </a>
           <a
             className='font-bold text-sm text-blue-500 hover:text-blue-800'
             href='#'

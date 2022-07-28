@@ -1,21 +1,65 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import validator from 'validator';
+
 import { signupUser } from '../services/login';
 
-const SignupCard = ({ setToken }) => {
-  const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
+const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{0,99}$/;
+const PASSWORD_REGEX =
+  /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+const SignupCard = ({ setToken }) => {
+  const [username, setUsername] = useState('');
+  const [validUsername, setValidUsername] = useState(false);
+  const [usernameFocus, setUsernameFocus] = useState(false);
+
+  const [password, setPassword] = useState('');
+  const [validPassword, setValidPassword] = useState(false);
+  const [passwordFocus, setPasswordFocus] = useState(false);
+
   const [email, setEmail] = useState();
+  const emailRef = useRef();
+
+  const [errorMessages, setErrorMessages] = useState({});
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+
+  useEffect(() => {
+    emailRef.current.focus();
+  }, []);
+
+  // useEffect(() => {
+  //   const valid = USER_REGEX.test(username);
+  //   setValidUsername(valid);
+  // }, [username]);
+
+  // useEffect(() => {
+  //   const valid = PASSWORD_REGEX.test(password);
+  //   setValidPassword(valid);
+  // }, [password]);
+
+  // useEffect(() => {
+  //   setErrorMessages({});
+  // }, [username, password, email]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const validUsername = USER_REGEX.test(username);
+    const validPassword = USER_REGEX.test(password);
+    const validEmail = validator.isEmail(email);
+
+    if (!validUsername || !validPassword || !validEmail) {
+      console.log('error');
+      return;
+    }
+
     try {
       const res = await signupUser({ username, password, email });
       console.log(res);
-      console.log(document.cookie);
+      navigate(from, { replace: true });
     } catch (err) {
       console.log(err);
     }
@@ -25,21 +69,21 @@ const SignupCard = ({ setToken }) => {
     <div className='w-full max-w-xs'>
       <form
         className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
-        novalidate='novalidate'
         onSubmit={handleSubmit}
       >
         <div className='mb-4'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'
-            for='email'
+            htmlFor='email'
           >
             Email
           </label>
           <input
             className='shadow appearance-none border rounded w-full px-3 py-2 text-gray-700 leading-tight focus:shadow-outline'
             id='email'
-            type='text'
+            type='email'
             name='email'
+            ref={emailRef}
             placeholder='Email'
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -48,7 +92,7 @@ const SignupCard = ({ setToken }) => {
         <div className='mb-4'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'
-            for='username'
+            htmlFor='username'
           >
             Username
           </label>
@@ -65,7 +109,7 @@ const SignupCard = ({ setToken }) => {
         <div className='mb-6'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'
-            for='password'
+            htmlFor='password'
           >
             Password
           </label>
@@ -83,13 +127,12 @@ const SignupCard = ({ setToken }) => {
           <button
             className='bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded focus:shadow-outline'
             type='submit'
-            formnovalidate
           >
             Sign Up
           </button>
           <a
             className='font-bold text-sm text-blue-500 hover:text-blue-800'
-            href='#'
+            href='/signup'
           >
             Forgot Password?
           </a>

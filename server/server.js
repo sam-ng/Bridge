@@ -20,6 +20,7 @@ const { addMessage, getChannelMessages } = require('./globals/messages');
 const { channels, addUserToChannel } = require('./globals/channels');
 const { addUser, removeUser } = require('./globals/users');
 
+const { requireAuth } = require('./middleware/authMiddleware');
 const authRoutes = require('./routes/authRoutes');
 
 connectDB().then((err) => {
@@ -32,8 +33,8 @@ connectDB().then((err) => {
       credentials: true,
     })
   );
-  app.use(bodyParser.urlencoded({ extended: false }));
-  app.use(bodyParser.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(express.json());
   app.use(cookieParser());
 
   // const io = new Server(server, {
@@ -49,6 +50,10 @@ connectDB().then((err) => {
     res.send('hello');
   });
 
+  app.get('/protected', requireAuth, (req, res) => {
+    res.send('Access protected.');
+  });
+
   // app.use(
   //   session({
   //     secret: process.env.SESSION_SECRET,
@@ -57,7 +62,7 @@ connectDB().then((err) => {
   //     cookie: { httpOnly: true, maxAge: parseInt(process.env.SESSION_MAX_AGE) },
   //   })
   // );
-  app.use(authRoutes);
+  app.use('/auth', authRoutes);
 
   // app.post('/signup', async (req, res) => {
   //   const { username, password } = req.body;

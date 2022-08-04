@@ -4,10 +4,10 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
-const accessMaxAge = 5 * 60; // 5 minutes
+const accessMaxAge = 30; // 30 seconds
 const refreshMaxAge = 3 * 24 * 60 * 60; // 3 days
 
-const handleErrors = (err) => {
+const handleAuthErrors = (err) => {
   let errors = { username: '', password: '', email: '' };
 
   // Duplicate email error
@@ -24,33 +24,38 @@ const handleErrors = (err) => {
   return errors;
 };
 
-const createAccessToken = (id) => {
-  return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
+const createAccessToken = (payload) => {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: accessMaxAge,
   });
 };
 
-const createRefreshToken = (id) => {
-  return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
+const createRefreshToken = (payload) => {
+  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: refreshMaxAge,
   });
 };
 
 const signup = async (req, res) => {
   const { username, password, email } = req.body;
+
+  const duplicate = await User.findOne({ email }).exec();
+  if (duplicate) return res.sendStatus(409);
+
   try {
-    const user = await User.create({ username, password, email });
-    const accessToken = createAccessToken({ username: user.username });
-    const refreshToken = createRefreshToken({ username: user.username });
-    res.cookie('refresh_token', refreshToken, {
+    const accessToken = createAccessToken({ username });
+    const refreshToken = createRefreshToken({ username });
+    const user = await User.create({ username, password, email, refreshToken });
+
+    res.cookie('jwt', refreshToken, {
       httpOnly: true,
       maxAge: refreshMaxAge * 1000,
     });
-    res.status(200).json({ accessToken });
+    res.status(201).json({ message: `User ${username} was created.` });
   } catch (err) {
     console.log(err);
-    const errors = handleErrors(err);
-    res.status(400).json(errors);
+    const errors = handleAuthErrors(err);
+    res.status(500).json(errors);
   }
 };
 
@@ -60,17 +65,20 @@ const login = async (req, res) => {
     return res
       .status(400)
       .json({ message: 'Username or password is missing.' });
-  try {
-    const user = await User.find({ username });
-    if (!user) return res.sendStatus(401);
 
-    console.log(user);
+  try {
+    const user = await User.findOne({ username }).exec();
+    if (!user) return res.sendStatus(401);
 
     const match = await bcrypt.compare(password, user.password);
     if (match) {
       const accessToken = createAccessToken({ username: user.username });
       const refreshToken = createRefreshToken({ username: user.username });
-      res.cookie('refresh_token', refreshToken, {
+
+      user.refreshToken = refreshToken;
+      await user.save();
+
+      res.cookie('jwt', refreshToken, {
         httpOnly: true,
         maxAge: refreshMaxAge * 1000,
       });
@@ -78,9 +86,29 @@ const login = async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    const errors = handleErrors(err);
+    const errors = handleAuthErrors(err);
     res.status(400).json(errors);
   }
 };
 
-module.exports = { signup, login };
+const refreshToken = async (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.sendStatus(401);
+
+  const refreshToken = cookies.jwt;
+
+  const user = await User.findOne({ refreshToken }).exec();
+  if (!user) return res.sendStatus(403);
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err || user.username !== decoded.username) return res.sendStatus(403);
+    const accessToken = jwt.sign(
+      { username: decoded.username },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: accessMaxAge }
+    );
+    res.status(200).json({ accessToken });
+  });
+};
+
+module.exports = { signup, login, refreshToken };

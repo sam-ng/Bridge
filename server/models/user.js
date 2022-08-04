@@ -18,6 +18,7 @@ const userSchema = new Schema({
     unique: true,
     validate: [isEmail, 'Please enter a valid email.'],
   },
+  refreshToken: String,
 });
 
 userSchema.pre('save', async function (next) {

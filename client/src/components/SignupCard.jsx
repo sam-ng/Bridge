@@ -59,6 +59,8 @@ const SignupCard = ({ setToken }) => {
     try {
       const res = await signupUser({ username, password, email });
       console.log(res);
+      const res2 = await fetch('http://localhost:8000/protected');
+      console.log(res2);
       navigate(from, { replace: true });
     } catch (err) {
       console.log(err);

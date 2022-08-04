@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const LoginCard = ({ setToken }) => {
+const LoginCard = () => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 

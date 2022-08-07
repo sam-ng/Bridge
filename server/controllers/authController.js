@@ -51,7 +51,7 @@ const signup = async (req, res) => {
       httpOnly: true,
       maxAge: refreshMaxAge * 1000,
     });
-    res.status(201).json({ message: `User ${username} was created.` });
+    res.status(201).json({ message: `User ${user.username} was created.` });
   } catch (err) {
     console.log(err);
     const errors = handleAuthErrors(err);

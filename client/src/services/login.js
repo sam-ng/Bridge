@@ -1,7 +1,7 @@
-export const signupUser = async (credentials) => {
-  const serverURL = `${process.env.REACT_APP_SERVER_SCHEME}://${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`;
+const SERVER_URL = `${process.env.REACT_APP_SERVER_SCHEME}${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`;
 
-  return fetch(`${serverURL}/auth/signup`, {
+export const signupUser = async (credentials) => {
+  return fetch(`${SERVER_URL}/auth/signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
@@ -10,11 +10,15 @@ export const signupUser = async (credentials) => {
 };
 
 export const loginUser = async (credentials) => {
-  const serverURL = `${process.env.REACT_APP_SERVER_SCHEME}${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`;
-
-  return fetch(`${serverURL}/auth/login`, {
+  return fetch(`${SERVER_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(credentials),
+  }).then((data) => data.json());
+};
+
+export const refreshToken = async () => {
+  return fetch(`${SERVER_URL}/auth/refreshToken`, {
+    credentials: 'include',
   }).then((data) => data.json());
 };

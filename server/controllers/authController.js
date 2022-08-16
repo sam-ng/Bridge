@@ -93,7 +93,7 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(401);
+  if (!cookies?.jwt) return res.sendStatus(204);
 
   const refreshToken = cookies.jwt;
 
@@ -112,9 +112,23 @@ const refreshToken = async (req, res) => {
   if (!cookies?.jwt) return res.sendStatus(401);
 
   const refreshToken = cookies.jwt;
+  res.clearCookie('jwt', { httpOnly: true });
 
   const user = await User.findOne({ refreshToken }).exec();
-  if (!user) return res.sendStatus(403);
+
+  // No user for this refresh token found
+  if (!user) {
+    jwt.verify(
+      refreshToken,
+      process.env.REFRESH_TOKEN_SECRET,
+      async (err, decoded) => {
+        if (err) return res.sendStatus(403);
+
+        // Valid refresh token found
+      }
+    );
+  }
+  return res.sendStatus(403);
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
     if (err || user.username !== decoded.username) return res.sendStatus(403);

@@ -1,6 +1,15 @@
 import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import useAuth from '../hooks/useAuth';
 
 const LoginCard = () => {
+  const { setAuth } = useAuth();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 

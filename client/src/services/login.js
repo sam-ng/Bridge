@@ -9,16 +9,9 @@ export const signupUser = async (credentials) => {
   }).then((data) => data.json());
 };
 
-export const loginUser = async (credentials) => {
-  return fetch(`${SERVER_URL}/auth/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
-  }).then((data) => data.json());
-};
-
 export const refreshToken = async () => {
-  return fetch(`${SERVER_URL}/auth/refreshToken`, {
+  const data = await fetch(`${SERVER_URL}/auth/refreshToken`, {
     credentials: 'include',
-  }).then((data) => data.json());
+  });
+  return await data.json();
 };

@@ -1,7 +1,7 @@
 const channels = [
-  { id: 1, name: 'general', users: [] },
-  { id: 2, name: 'channel 2', users: [] },
-  { id: 3, name: 'channel 3', users: [] },
+  { id: 1, name: 'general', users: [], messages: [] },
+  { id: 2, name: 'channel 2', users: [], messages: [] },
+  { id: 3, name: 'channel 3', users: [], messages: [] },
 ];
 
 const addUserToChannel = (channel, name) => {

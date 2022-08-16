@@ -8,7 +8,7 @@ import './App.css';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import RequireAuth from './components/RequireAuth';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   // const socket = socketClient(
@@ -21,8 +21,10 @@ function App() {
 
   return (
     <Routes>
-      <Route element={<RequireAuth />}>
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoute />}>
         <Route path='/' element={<Home />} />
+        <Route path='/protect' element={<>Another protected route</>} />
       </Route>
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<Signup />} />

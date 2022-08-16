@@ -1,12 +1,18 @@
+import { SERVER_URL } from '../constants/api';
 import useAuth from './useAuth';
-import { refreshToken } from '../services/login';
+import useFetch from './useFetch';
 
 const useRefreshToken = () => {
   const { setAuth } = useAuth();
 
   const refresh = async () => {
-    res = await refreshToken();
-    setAuth((prevState) => ({ ...prevState, accessToken: res.accessToken }));
+    const { data, isLoading, error } = await useFetch(
+      `${SERVER_URL}/auth/refreshToken`,
+      {
+        credentials: 'include',
+      }
+    );
+    setAuth((prevState) => ({ ...prevState, accessToken: data.accessToken }));
     return res.accessToken;
   };
 

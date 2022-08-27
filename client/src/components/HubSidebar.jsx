@@ -3,11 +3,41 @@ import kirigiri_llama from '../assets/images/kirigiri_llama.png';
 
 import HubSideBarItem from './HubSidebarItem';
 
-const HubSidebar = (props) => {
+const HubSidebar = ({
+  name,
+  channelsLoading,
+  channels,
+  channel,
+  setChannel,
+}) => {
   return (
-    <ul className='h-screen dark:bg-slate-800 py-2 px-5'>
-      <HubSideBarItem image={kirigiri_llama}></HubSideBarItem>
-    </ul>
+    <nav className='h-full bg-gray-50 dark:bg-slate-800'>
+      <div className='overflow-y-auto py-4 px-3 '>
+        <ul className='space-y-2'>
+          <HubSideBarItem
+            url='#'
+            image={kirigiri_llama}
+            setChannel={setChannel}
+          >
+            General
+          </HubSideBarItem>
+          <HubSideBarItem
+            url='#'
+            image={kirigiri_llama}
+            setChannel={setChannel}
+          >
+            Channel 1
+          </HubSideBarItem>
+          <HubSideBarItem
+            url='#'
+            image={kirigiri_llama}
+            setChannel={setChannel}
+          >
+            Channel 2
+          </HubSideBarItem>
+        </ul>
+      </div>
+    </nav>
   );
 };
 

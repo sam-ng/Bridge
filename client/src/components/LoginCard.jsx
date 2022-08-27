@@ -19,6 +19,7 @@ const LoginCard = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setAuth({});
     alert('You have submitted the form.');
   };
 

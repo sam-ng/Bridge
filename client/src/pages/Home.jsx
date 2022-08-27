@@ -1,18 +1,24 @@
-import React from 'react';
+import { useState } from 'react';
 
 import HubSidebar from '../components/HubSidebar';
+import Chat from '../components/Chat';
 
 const Home = (props) => {
+  const [channel, setChannel] = useState('General');
+
   return (
-    <div className='h-screen flex flex-row justify-center items-center'>
+    <div className='grid grid-cols-6 h-screen'>
       {/* <div>Welcome to Bridge</div>
       <div>A Hub Dedicated to Connecting With Others </div> */}
 
       {/* Regions */}
 
-      <HubSidebar className='flex-1'></HubSidebar>
-      <div className='flex-1 px-10'>Test</div>
-      <div className='flex-3 px-10'>Test</div>
+      <aside className='col-span-1 h-screen'>
+        <HubSidebar setChannel={setChannel} />
+      </aside>
+      <main className='col-span-5 h-screen'>
+        <Chat channel={channel} />
+      </main>
     </div>
   );
 };

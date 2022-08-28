@@ -1,8 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import { io } from 'socket.io-client';
-
-import { SERVER_URL } from '../constants/api';
 
 import ChatHeader from './ChatHeader';
 import Channels from './Channels';
@@ -20,8 +16,7 @@ import {
   subscribeToMessages,
 } from '../services/socket';
 
-const Chat = ({ channel }) => {
-  const [channels, setChannels] = useState([]);
+const Chat = ({ channel, name }) => {
   const [messages, setMessages] = useState([
     { content: 'Hello World', user: 'user1' },
     { content: 'Hello World as well', user: 'user2' },
@@ -41,9 +36,6 @@ const Chat = ({ channel }) => {
   ]);
   const [messagesLoading, setMessagesLoading] = useState(true);
   const [channelsLoading, setChannelsLoading] = useState(true);
-  const socket = useSocket();
-
-  const name = uuidv4();
 
   const prevChannelRef = usePreviousChannel(channel);
   const prevChannel = prevChannelRef.current;

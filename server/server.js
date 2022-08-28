@@ -62,9 +62,7 @@ app.get('/channels', (req, res) => {
 
 const server = http.createServer(app);
 
-const io = new Server(server, {
-  corsOptions,
-});
+const io = new Server(server, { cors: corsOptions });
 
 io.on('connection', (socket) => {
   const { name, channel } = socket.handshake.query;

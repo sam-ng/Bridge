@@ -1,11 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import ChatHeader from './ChatHeader';
 import Channels from './Channels';
 import ChatBody from './ChatBody';
 import ChatInputForm from './ChatInputForm';
-
-import usePreviousChannel from '../hooks/usePreviousChannel';
 
 import {
   initiateSocketConnection,
@@ -36,29 +34,6 @@ const Chat = ({ channel, name }) => {
   ]);
   const [messagesLoading, setMessagesLoading] = useState(true);
   const [channelsLoading, setChannelsLoading] = useState(true);
-
-  const prevChannelRef = usePreviousChannel(channel);
-  const prevChannel = prevChannelRef.current;
-
-  // useEffect(() => {
-  //   if (prevChannel && channel) {
-  //     //   switchChannel(prevChannel, channel);
-  //     setChannel(channel);
-  //   } else if (channel) {
-  //     //   initiateSocketConnection(channel, name);
-  //   }
-  // }, [channel]);
-
-  // useEffect(() => {
-  //   fetchChannels().then((res) => {
-  //     setChannels(res);
-  //     setChannelsLoading(false);
-  //   });
-
-  //   subscribeToMessages((err, data) => {
-  //     setMessages((messages) => [...messages, data]);
-  //   });
-  // }, []);
 
   return (
     <section className='grid grid-rows-18 h-full'>

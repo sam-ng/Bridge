@@ -1,14 +1,19 @@
-import { useContext } from 'react';
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
+import { io } from 'socket.io-client';
 
-// export const socket = io(SERVER_URL);
+import { SERVER_URL } from '../constants/api';
+
 export const SocketContext = createContext();
 
-// export const SocketProvider = ({ children }) => {
-//   return (
-//     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
-//   );
-// };
+export const SocketProvider = ({ children }) => {
+  const socket = io(SERVER_URL, {
+    withCredentials: true,
+  });
+
+  return (
+    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+  );
+};
 
 export const useSocket = () => {
   const socket = useContext(SocketContext);

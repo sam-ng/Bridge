@@ -1,7 +1,7 @@
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useRef } from 'react';
 
 const useFetch = (url, options) => {
-  let cancelRequest = false;
+  let cancelRequest = useRef(false);
 
   const initialState = {
     data: undefined,
@@ -27,22 +27,25 @@ const useFetch = (url, options) => {
   useEffect(() => {
     if (!url) return;
 
+    cancelRequest.current = false;
+
     const fetchData = async () => {
       dispatch({ type: 'LOADING' });
       try {
         const response = await fetch(url, options);
         const data = await response.json();
-        if (cancelRequest) return;
+        if (cancelRequest.current) return;
         dispatch({ type: 'FETCHED', payload: data });
       } catch (err) {
-        if (cancelRequest) return;
+        if (cancelRequest.current) return;
         dispatch({ type: 'ERROR', payload: err.message });
       }
     };
+
     fetchData();
 
     return () => {
-      cancelRequest = true;
+      cancelRequest.current = true;
     };
   }, [url]);
 

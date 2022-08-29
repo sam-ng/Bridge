@@ -1,26 +1,46 @@
-import { useState } from 'react';
-import { io } from 'socket.io-client';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
-import { SERVER_URL } from '../constants/api';
 
 import HubSidebar from '../components/HubSidebar';
 import Chat from '../components/Chat';
-import SocketContext from '../context/SocketProvider';
-import { useEffect } from 'react';
-import { initiateSocketConnection } from '../services/socket';
+import { useSocket } from '../context/SocketProvider';
+import usePreviousChannel from '../hooks/usePreviousChannel';
+
+import {
+  fetchChannels,
+  initiateSocketConnection,
+  subscribeToMessages,
+  switchChannel,
+} from '../services/socket';
 
 const Home = (props) => {
   const [channel, setChannel] = useState('General');
+  const [messages, setMessages] = useState([]);
 
   // const name = uuidv4();
   const name = 'User1';
-  const socket = io(SERVER_URL, {
-    query: { channel, name },
-    withCredentials: true,
-  });
 
-  initiateSocketConnection(socket, channel, name);
+  const socket = useSocket();
+  const prevChannel = usePreviousChannel(channel);
+
+  useEffect(() => {
+    initiateSocketConnection(socket);
+  }, []);
+
+  useEffect(() => {
+    switchChannel(socket, prevChannel, channel);
+  }, [channel]);
+
+  // useEffect(() => {
+  //   fetchChannels().then((res) => {
+  //     setChannels(res);
+  //     setChannelsLoading(false);
+  //   });
+
+  //   subscribeToMessages(socket, (err, data) => {
+  //     setMessages((messages) => [...messages, data]);
+  //   });
+  // }, []);
 
   return (
     <div className='grid grid-cols-6 h-screen'>
@@ -33,7 +53,7 @@ const Home = (props) => {
         <HubSidebar setChannel={setChannel} />
       </aside>
       <main className='col-span-5 h-screen'>
-        <Chat channel={(channel, name)} />
+        <Chat channel={channel} name={name} />
       </main>
     </div>
   );

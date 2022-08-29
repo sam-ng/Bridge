@@ -44,7 +44,7 @@ app.get('/', (req, res) => {
 app.use('/auth', authRoutes);
 
 // Private Routes
-app.use(requireAuth);
+// app.use(requireAuth);
 app.get('/protected', (req, res) => {
   res.send('Access protected.');
 });
@@ -57,6 +57,7 @@ app.get('/channels/:channel/messages', (req, res) => {
 });
 
 app.get('/channels', (req, res) => {
+  console.log('fetching channels');
   return res.json({ channels });
 });
 
@@ -72,7 +73,7 @@ io.on('connection', (socket) => {
   addUserToChannel(channel, name);
 
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    console.log(`${name} disconnected`);
     removeUser(name);
   });
 

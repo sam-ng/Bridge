@@ -35,10 +35,10 @@ export const sendMessage = (socket, data) => {
 //   return data.channels;
 // };
 
-export const fetchChannelMessages = async (channel) => {
-  const res = await fetch(`${SERVER_URL}/channels/${channel}/messages`, {
-    credentials: 'include',
-  });
-  const data = await res.json();
-  return data.messages;
-};
+// export const fetchChannelMessages = async (channel) => {
+//   const res = await fetch(`${SERVER_URL}/channels/${channel}/messages`, {
+//     credentials: 'include',
+//   });
+//   const data = await res.json();
+//   return data.messages;
+// };

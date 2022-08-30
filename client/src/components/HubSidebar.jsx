@@ -17,17 +17,19 @@ const HubSidebar = ({ name, channel, setChannel }) => {
     <nav className='h-full bg-gray-50 dark:bg-slate-800'>
       <div className='overflow-y-auto py-4 px-3 '>
         <ul className='space-y-2'>
-          {data
-            ? data.channels.map((channel) => (
-                <HubSideBarItem
-                  url='#'
-                  image={kirigiri_llama}
-                  setChannel={setChannel}
-                >
-                  {channel.name}
-                </HubSideBarItem>
-              ))
-            : null}
+          {isLoading ? (
+            <div>Loading...</div>
+          ) : (
+            data?.channels.map((channel) => (
+              <HubSideBarItem
+                url='#'
+                image={kirigiri_llama}
+                setChannel={setChannel}
+              >
+                {channel.name}
+              </HubSideBarItem>
+            ))
+          )}
         </ul>
       </div>
     </nav>

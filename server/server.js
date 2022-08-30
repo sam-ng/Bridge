@@ -14,8 +14,12 @@ const { Server } = require('socket.io');
 
 const { connectDB } = require('./configs/db');
 
-const { addMessage, getChannelMessages } = require('./services/messages');
-const { channels, addUserToChannel } = require('./services/channels');
+const { addMessage } = require('./services/messages');
+const {
+  channels,
+  addUserToChannel,
+  getChannelMessages,
+} = require('./services/channels');
 const { addUser, removeUser } = require('./services/users');
 
 const { requireAuth } = require('./middleware/authMiddleware');
@@ -50,8 +54,10 @@ app.get('/protected', (req, res) => {
 });
 
 app.get('/channels/:channel/messages', (req, res) => {
+  console.log('here');
   const { channel } = req.params;
   const messages = getChannelMessages(channel);
+  console.log(messages);
 
   return res.json({ messages });
 });

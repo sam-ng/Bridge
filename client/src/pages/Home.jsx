@@ -15,9 +15,7 @@ import {
 
 const Home = (props) => {
   const [channel, setChannel] = useState('General');
-  const [messages, setMessages] = useState([]);
 
-  // const name = uuidv4();
   const name = 'User1';
 
   const socket = useSocket();

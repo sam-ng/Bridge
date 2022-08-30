@@ -33,8 +33,8 @@ const useFetch = (initialUrl, initialOptions) => {
     cancelRequest.current = false;
 
     const fetchData = async () => {
-      dispatch({ type: 'LOADING' });
       try {
+        dispatch({ type: 'LOADING' });
         const response = await fetch(url, options);
         const data = await response.json();
         if (cancelRequest.current) return;

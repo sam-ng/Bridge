@@ -1,9 +1,14 @@
 import { useEffect, useState } from 'react';
 
+import { SERVER_URL } from '../constants/api';
+
 import ChatHeader from './ChatHeader';
 import Channels from './Channels';
 import ChatBody from './ChatBody';
 import ChatInputForm from './ChatInputForm';
+
+import { useSocket } from '../context/SocketProvider';
+import useFetch from '../hooks/useFetch';
 
 import {
   initiateSocketConnection,
@@ -15,30 +20,28 @@ import {
 } from '../services/socket';
 
 const Chat = ({ channel, name }) => {
-  const [messages, setMessages] = useState([
-    { content: 'Hello World', user: 'user1' },
-    { content: 'Hello World as well', user: 'user2' },
-    { content: 'paoijfepoaijf oie fpaief pafe', user: 'user2' },
-    { content: 'Hello World', user: 'user1' },
-    { content: 'Hello World as well', user: 'user2' },
-    { content: 'paoijfepoaijf oie fpaief pafe', user: 'user2' },
-    { content: 'Hello World', user: 'user1' },
-    { content: 'Hello World as well', user: 'user2' },
-    { content: 'paoijfepoaijf oie fpaief pafe', user: 'user2' },
-    { content: 'Hello World', user: 'user1' },
-    { content: 'Hello World as well', user: 'user2' },
-    { content: 'paoijfepoaijf oie fpaief pafe', user: 'user2' },
-    { content: 'paoijfepoaijf oie fpaief pafe', user: 'user2' },
-    { content: 'paoijfepoaijf oie fpaief pafe', user: 'user2' },
-    { content: 'paoijfepoaijf oie fpaief pafe', user: 'user2' },
-  ]);
+  const socket = useSocket();
+
+  const { data, isLoading, error } = useFetch(
+    `${SERVER_URL}/channels/${channel}/messages`,
+    {
+      credentials: 'include',
+    }
+  );
+
+  useEffect(() => {});
+
   const [messagesLoading, setMessagesLoading] = useState(true);
   const [channelsLoading, setChannelsLoading] = useState(true);
 
   return (
     <section className='grid grid-rows-18 h-full'>
       <ChatHeader name={channel} />
-      <ChatBody messages={messages} />
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <ChatBody messages={data?.messages} />
+      )}
       <ChatInputForm />
 
       {/* <Channels

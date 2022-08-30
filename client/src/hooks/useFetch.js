@@ -1,6 +1,6 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useEffect, useReducer, useRef, useState } from 'react';
 
-const useFetch = (url, options) => {
+const useFetch = (initialUrl, initialOptions) => {
   let cancelRequest = useRef(false);
 
   const initialState = {
@@ -8,6 +8,9 @@ const useFetch = (url, options) => {
     isLoading: false,
     error: undefined,
   };
+
+  const [url, setUrl] = useState(initialUrl);
+  const [options, setOptions] = useState(initialOptions);
 
   const fetchReducer = (state, action) => {
     switch (action.type) {
@@ -47,9 +50,9 @@ const useFetch = (url, options) => {
     return () => {
       cancelRequest.current = true;
     };
-  }, [url]);
+  }, [url, options]);
 
-  return state;
+  return { ...state, setUrl, setOptions };
 };
 
 export default useFetch;

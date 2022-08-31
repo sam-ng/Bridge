@@ -19,24 +19,25 @@ import {
   subscribeToMessages,
 } from '../services/socket';
 
-const Chat = ({ channel, name }) => {
+const Chat = ({ channelId, name }) => {
   const socket = useSocket();
 
   const { data, isLoading, error } = useFetch(
-    `${SERVER_URL}/channels/${channel}/messages`,
+    `${SERVER_URL}/channels/${channelId}/messages`,
     {
       credentials: 'include',
     }
   );
 
   useEffect(() => {});
+  console.log(data);
 
   const [messagesLoading, setMessagesLoading] = useState(true);
   const [channelsLoading, setChannelsLoading] = useState(true);
 
   return (
     <section className='grid grid-rows-18 h-full'>
-      <ChatHeader name={channel} />
+      <ChatHeader name={channelId} />
       {isLoading ? (
         <div>Loading...</div>
       ) : (

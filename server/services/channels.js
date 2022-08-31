@@ -26,9 +26,9 @@ const channels = [
   { id: 3, name: 'Channel 2', users: [], messages: [] },
 ];
 
-const addUserToChannel = (channel, name) => {
+const addUserToChannel = (channelId, name) => {
   channels
-    .filter((c) => c.name === channel)
+    .filter((c) => c.id === channelId)
     .forEach((c) => {
       c.users.push(name);
 
@@ -37,8 +37,8 @@ const addUserToChannel = (channel, name) => {
 };
 
 // TODO: rewrite logic and schema eventually
-const getChannelMessages = (channel) => {
-  return channels.filter((c) => c.name === channel)[0].messages;
+const getChannelMessages = (channelId) => {
+  return channels.filter((c) => c.id === parseInt(channelId))[0].messages;
 };
 
 module.exports = { channels, addUserToChannel, getChannelMessages };

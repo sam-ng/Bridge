@@ -1,9 +1,9 @@
 import React from 'react';
 
-const HubSideBarItem = ({ image, url, children, setChannel }) => {
+const HubSideBarItem = ({ image, url, channelId, setChannelId, children }) => {
   const handleClick = (e) => {
     e.preventDefault();
-    setChannel(children);
+    setChannelId(channelId);
   };
 
   return (

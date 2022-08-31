@@ -5,21 +5,24 @@ const useFetch = (initialUrl, initialOptions) => {
 
   const initialState = {
     data: undefined,
-    isLoading: false,
+    loading: false,
     error: undefined,
   };
 
   const [url, setUrl] = useState(initialUrl);
   const [options, setOptions] = useState(initialOptions);
 
+  console.log(initialUrl);
+  console.log(url);
+
   const fetchReducer = (state, action) => {
     switch (action.type) {
       case 'LOADING':
-        return { ...initialState, isLoading: true };
+        return { ...initialState, loading: true };
       case 'FETCHED':
-        return { ...initialState, data: action.payload, isLoading: false };
+        return { ...initialState, data: action.payload, loading: false };
       case 'ERROR':
-        return { ...initialState, error: action.payload, isLoading: false };
+        return { ...initialState, error: action.payload, loading: false };
       default:
         return state;
     }

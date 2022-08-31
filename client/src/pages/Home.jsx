@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { SERVER_URL } from '../constants/api';
+
+import useFetch from '../hooks/useFetch';
+
 import HubSidebar from '../components/HubSidebar';
 import Chat from '../components/Chat';
 import { useSocket } from '../context/SocketProvider';
@@ -13,21 +17,26 @@ import {
   switchChannel,
 } from '../services/socket';
 
-const Home = (props) => {
-  const [channel, setChannel] = useState('General');
+const Home = () => {
+  const { data, loading, error } = useFetch(`${SERVER_URL}/channels`, {
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+  });
+
+  const [channelId, setChannelId] = useState(1);
 
   const name = 'User1';
 
   const socket = useSocket();
-  const prevChannel = usePreviousChannel(channel);
+  const prevChannel = usePreviousChannel(channelId);
 
   useEffect(() => {
     initiateSocketConnection(socket);
-  }, []);
+  }, [socket]);
 
   useEffect(() => {
-    switchChannel(socket, prevChannel, channel);
-  }, [channel]);
+    switchChannel(socket, prevChannel, channelId);
+  }, [socket, prevChannel, channelId]);
 
   // useEffect(() => {
   //   fetchChannels().then((res) => {
@@ -48,10 +57,14 @@ const Home = (props) => {
       {/* Regions */}
 
       <aside className='col-span-1 h-screen'>
-        <HubSidebar setChannel={setChannel} />
+        <HubSidebar
+          channels={data?.channels}
+          channelsLoading={loading}
+          setChannelId={setChannelId}
+        />
       </aside>
       <main className='col-span-5 h-screen'>
-        <Chat channel={channel} name={name} />
+        <Chat channelId={channelId} name={name} />
       </main>
     </div>
   );

@@ -53,10 +53,9 @@ app.get('/protected', (req, res) => {
   res.send('Access protected.');
 });
 
-app.get('/channels/:channel/messages', (req, res) => {
-  console.log('here');
-  const { channel } = req.params;
-  const messages = getChannelMessages(channel);
+app.get('/channels/:channelId/messages', (req, res) => {
+  const { channelId } = req.params;
+  const messages = getChannelMessages(channelId);
   console.log(messages);
 
   return res.json({ messages });

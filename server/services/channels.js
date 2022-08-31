@@ -1,3 +1,4 @@
+// TODO: DELETE - For testing purposes only
 const channels = [
   {
     id: 1,

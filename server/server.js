@@ -15,15 +15,12 @@ const { Server } = require('socket.io');
 const { connectDB } = require('./configs/db');
 
 const { addMessage } = require('./services/messages');
-const {
-  channels,
-  addUserToChannel,
-  getChannelMessages,
-} = require('./services/channels');
+const { channels, addUserToChannel } = require('./services/channels');
 const { addUser, removeUser } = require('./services/users');
 
 const { requireAuth } = require('./middleware/authMiddleware');
 const authRoutes = require('./routes/authRoutes');
+const channelsRoutes = require('./routes/channelsRoutes');
 
 const corsOptions = {
   origin: `${process.env.SCHEME}${process.env.DOMAIN}:${process.env.CLIENT_PORT}`,
@@ -53,18 +50,7 @@ app.get('/protected', (req, res) => {
   res.send('Access protected.');
 });
 
-app.get('/channels/:channelId/messages', (req, res) => {
-  const { channelId } = req.params;
-  const messages = getChannelMessages(channelId);
-  console.log(messages);
-
-  return res.json({ messages });
-});
-
-app.get('/channels', (req, res) => {
-  console.log('fetching channels');
-  return res.json({ channels });
-});
+app.use('/channels', channelsRoutes);
 
 const server = http.createServer(app);
 

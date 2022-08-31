@@ -23,7 +23,9 @@ const Home = () => {
     credentials: 'include',
   });
 
-  const [channelId, setChannelId] = useState(1);
+  console.log(data);
+
+  const [channelId, setChannelId] = useState('630edb20764e8a7c54eb8394');
 
   const name = 'User1';
 

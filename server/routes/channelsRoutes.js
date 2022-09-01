@@ -1,20 +1,15 @@
 const { Router } = require('express');
 const {
-  initializeChannels,
   getChannels,
+  getChannelMessages,
+  initializeChannels,
 } = require('../controllers/channelsController');
 
 const router = Router();
 
 router.get('/', getChannels);
 
-router.get('/:channelId/messages', (req, res) => {
-  const { channelId } = req.params;
-  const messages = getChannelMessages(channelId);
-  console.log(messages);
-
-  return res.json({ messages });
-});
+router.get('/:channelId/messages', getChannelMessages);
 
 // TODO: DELETE - For testing purposes only
 router.get('/initialize', (req, res) => {

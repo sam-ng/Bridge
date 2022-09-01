@@ -6,6 +6,15 @@ const getChannels = async (req, res) => {
   return res.status(200).json({ channels });
 };
 
+const getChannelMessages = async (req, res) => {
+  const { channelId } = req.params;
+  const channel = await Channel.findById(channelId)
+    .populate('user', 'username')
+    .exec();
+  console.log(channel);
+  return res.status(200).json({ messages: channel.messages });
+};
+
 // TODO: DELETE - For testing purposes only
 const initializeChannels = () => {
   Channel.create([
@@ -84,4 +93,4 @@ const initializeChannels = () => {
   ]);
 };
 
-module.exports = { getChannels, initializeChannels };
+module.exports = { getChannels, getChannelMessages, initializeChannels };

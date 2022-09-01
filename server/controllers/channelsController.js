@@ -9,9 +9,11 @@ const getChannels = async (req, res) => {
 const getChannelMessages = async (req, res) => {
   const { channelId } = req.params;
   const channel = await Channel.findById(channelId)
-    .populate('user', 'username')
+    .populate({
+      path: 'messages',
+      populate: { path: 'user', select: 'username' },
+    })
     .exec();
-  console.log(channel);
   return res.status(200).json({ messages: channel.messages });
 };
 

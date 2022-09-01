@@ -16,8 +16,10 @@ const ChatBody = ({
         return (
           <ChatMessage
             content={content}
-            isCurrentUser={currUser === user}
-            renderProfile={i == 0 || messages[i - 1].user !== user}
+            isCurrentUser={currUser === user.username}
+            renderProfile={
+              i == 0 || messages[i - 1].user.username !== user.username
+            }
           />
         );
       })}

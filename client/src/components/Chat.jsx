@@ -30,7 +30,6 @@ const Chat = ({ channelId, name }) => {
   );
 
   useEffect(() => {});
-  console.log(data);
 
   const [messagesLoading, setMessagesLoading] = useState(true);
   const [channelsLoading, setChannelsLoading] = useState(true);

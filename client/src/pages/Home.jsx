@@ -25,7 +25,7 @@ const Home = () => {
 
   console.log(data);
 
-  const [channelId, setChannelId] = useState('630edb20764e8a7c54eb8394');
+  const [channelId, setChannelId] = useState('631039be75999e8689b6d55c');
 
   const name = 'User1';
 

@@ -25,16 +25,17 @@ const Home = () => {
 
   console.log(data);
 
-  const [channelId, setChannelId] = useState('631039be75999e8689b6d55c');
+  const [channelId, setChannelId] = useState('');
 
-  const name = 'User1';
+  const user = 'User1';
+  const userId = '630ed7be14c08c76e3183baa';
 
   const socket = useSocket();
   const prevChannel = usePreviousChannel(channelId);
 
   useEffect(() => {
-    initiateSocketConnection(socket);
-  }, [socket]);
+    initiateSocketConnection(socket, userId, setChannelId);
+  }, [socket, userId]);
 
   useEffect(() => {
     switchChannel(socket, prevChannel, channelId);
@@ -66,7 +67,7 @@ const Home = () => {
         />
       </aside>
       <main className='col-span-5 h-screen'>
-        <Chat channelId={channelId} name={name} />
+        <Chat channelId={channelId} userId={userId} />
       </main>
     </div>
   );

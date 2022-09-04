@@ -15,7 +15,7 @@ const HubSidebar = ({ channels, channelsLoading, setChannelId }) => {
               <HubSideBarItem
                 url='#'
                 image={kirigiri_llama}
-                channelId={channel.id}
+                channelId={channel._id}
                 setChannelId={setChannelId}
               >
                 {channel.name}

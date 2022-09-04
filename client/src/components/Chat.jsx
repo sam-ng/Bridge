@@ -19,30 +19,42 @@ import {
   subscribeToMessages,
 } from '../services/socket';
 
-const Chat = ({ channelId, name }) => {
+const Chat = ({ channelId, userId }) => {
   const socket = useSocket();
+  const [messages, setMessages] = useState([]);
 
-  const { data, isLoading, error } = useFetch(
+  const { data, isLoading, error, setUrl } = useFetch(
     `${SERVER_URL}/channels/${channelId}/messages`,
     {
       credentials: 'include',
     }
   );
 
-  useEffect(() => {});
+  useEffect(() => {
+    setUrl(`${SERVER_URL}/channels/${channelId}/messages`);
+  }, [channelId]);
 
-  const [messagesLoading, setMessagesLoading] = useState(true);
-  const [channelsLoading, setChannelsLoading] = useState(true);
+  useEffect(() => {
+    if (data) setMessages(data.messages);
+    else setMessages([]);
+  }, [data]);
+
+  useEffect(() => {
+    subscribeToMessages(socket, (err, data) => {
+      console.log(data);
+      setMessages((messages) => [...messages, data]);
+    });
+  }, [socket, data]);
 
   return (
     <section className='grid grid-rows-18 h-full'>
-      <ChatHeader name={channelId} />
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <ChatBody messages={data?.messages} />
-      )}
-      <ChatInputForm />
+      <ChatHeader channelName={channelId} />
+      {isLoading ? <div>Loading...</div> : <ChatBody messages={messages} />}
+      <ChatInputForm
+        channelId={channelId}
+        userId={userId}
+        setMessages={setMessages}
+      />
 
       {/* <Channels
         name={name}

@@ -15,12 +15,20 @@ const { Server } = require('socket.io');
 const { connectDB } = require('./configs/db');
 
 const { addMessage } = require('./services/messages');
-const { channels, addUserToChannel } = require('./services/channels');
+const {
+  channels,
+  initializeChannels,
+  addUserToChannel,
+  removeUserFromChannel,
+} = require('./services/channels');
 const { addUser, removeUser } = require('./services/users');
 
 const { requireAuth } = require('./middleware/authMiddleware');
 const authRoutes = require('./routes/authRoutes');
 const channelsRoutes = require('./routes/channelsRoutes');
+
+const Channel = require('./models/channel');
+const User = require('./models/user');
 
 const corsOptions = {
   origin: `${process.env.SCHEME}${process.env.DOMAIN}:${process.env.CLIENT_PORT}`,
@@ -56,32 +64,54 @@ const server = http.createServer(app);
 
 const io = new Server(server, { cors: corsOptions });
 
-io.on('connection', (socket) => {
-  const { name, channel } = socket.handshake.query;
-  console.log(`${name} connected`);
-  socket.join(channel);
-  addUser(name, socket.id);
-  addUserToChannel(channel, name);
+io.on('connection', async (socket) => {
+  console.log('Initializing channels');
+  const channels = await initializeChannels();
+  console.log('Channels fetched');
+  // console.log(channels);
+
+  const { userId } = socket.handshake.query;
+  console.log(`${userId} connected`);
+
+  // addUser(name, socket.id);
+  // addUserToChannel(channel, userId);
 
   socket.on('disconnect', () => {
-    console.log(`${name} disconnected`);
-    removeUser(name);
+    console.log(`${userId} disconnected`);
+    // removeUser(name);
   });
 
   socket.on('channel-switch', (data) => {
-    const { prevChannel, nextChannel } = data;
+    const { prevChannel, channel } = data;
+    console.log('prev' + prevChannel);
+    console.log('next' + channel);
     if (prevChannel) {
       socket.leave(prevChannel);
+      console.log(`${userId} has left channel ${prevChannel}`);
+      removeUserFromChannel(prevChannel, userId);
     }
-    if (nextChannel) {
-      socket.join(nextChannel);
+    if (channel) {
+      socket.join(channel);
+      console.log(`${userId} joined channel ${channel}`);
+      addUserToChannel(channel, userId);
     }
   });
 
-  socket.on('message-send', (data) => {
-    addMessage(data);
-    const { channel } = data;
-    socket.broadcast.to(channel).emit('new-message', data);
+  socket.on('message-send', async (data) => {
+    console.log(data);
+    const { content, channelId, userId } = data;
+    try {
+      const channel = await Channel.findById(channelId).exec();
+      const user = await User.findById(userId).exec();
+      channel.messages.push({ content, user: userId });
+      await channel.save();
+      console.log(channelId);
+      console.log(io.sockets.adapter.rooms);
+      io.to(channelId).emit('message-receive', { content, user });
+      console.log('Emitting message to all clients.');
+    } catch (err) {
+      console.log(err);
+    }
   });
 });
 
@@ -90,7 +120,3 @@ mongoose.connection.once('open', () => {
     console.log(`Server listening on port ${PORT}`);
   });
 });
-
-// app.listen(8000, () => {
-//   console.log(`Server listening on port ${PORT}`);
-// });

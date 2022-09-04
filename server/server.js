@@ -105,8 +105,6 @@ io.on('connection', async (socket) => {
       const user = await User.findById(userId).exec();
       channel.messages.push({ content, user: userId });
       await channel.save();
-      console.log(channelId);
-      console.log(io.sockets.adapter.rooms);
       io.to(channelId).emit('message-receive', { content, user });
       console.log('Emitting message to all clients.');
     } catch (err) {

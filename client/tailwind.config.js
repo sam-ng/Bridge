@@ -3,6 +3,9 @@ module.exports = {
   theme: {
     extend: {
       flex: {
+        2: '2 2 auto',
+      },
+      flex: {
         3: '3 3 auto',
       },
       gridRow: {

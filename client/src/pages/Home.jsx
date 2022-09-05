@@ -6,6 +6,7 @@ import { SERVER_URL } from '../constants/api';
 import useFetch from '../hooks/useFetch';
 
 import HubSidebar from '../components/HubSidebar';
+import AddChannelModal from '../components/AddChannelModal';
 import Chat from '../components/Chat';
 import { useSocket } from '../context/SocketProvider';
 import usePreviousChannel from '../hooks/usePreviousChannel';
@@ -26,6 +27,7 @@ const Home = () => {
   console.log(data);
 
   const [channelId, setChannelId] = useState('');
+  const [showAddChannelModal, setShowAddChannelModal] = useState(false);
 
   const user = 'User1';
   const userId = '630ed7be14c08c76e3183baa';
@@ -64,6 +66,11 @@ const Home = () => {
           channels={data?.channels}
           channelsLoading={loading}
           setChannelId={setChannelId}
+          setShowAddChannelModal={setShowAddChannelModal}
+        />
+        <AddChannelModal
+          isOpen={showAddChannelModal}
+          setShowAddChannelModal={setShowAddChannelModal}
         />
       </aside>
       <main className='col-span-5 h-screen'>

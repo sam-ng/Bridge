@@ -17,8 +17,8 @@ const HubSideBarItem = ({ image, url, channelId, setChannelId, children }) => {
         <img className='w-12 h-12 rounded-full' src={image} />
         <span className='ml-3'>{children}</span>
       </a>
-      <button className='m-2 p-2 text-red-900'>
-        <FaTimes />
+      <button className='m-4 text-red-900 hover:text-red-500'>
+        <FaTimes className='w-12 h-12' />
       </button>
     </li>
   );

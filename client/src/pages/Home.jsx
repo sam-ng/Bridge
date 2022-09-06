@@ -12,20 +12,20 @@ import { useSocket } from '../context/SocketProvider';
 import usePreviousChannel from '../hooks/usePreviousChannel';
 
 import {
-  fetchChannels,
   initiateSocketConnection,
-  subscribeToMessages,
+  subscribeToChannels,
   switchChannel,
 } from '../services/socket';
 
 const Home = () => {
-  const { data, loading, error } = useFetch(`${SERVER_URL}/channels`, {
+  const { data, loading, error, setUrl } = useFetch(`${SERVER_URL}/channels`, {
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
   });
 
   console.log(data);
 
+  const [channels, setChannels] = useState([]);
   const [channelId, setChannelId] = useState('');
   const [showAddChannelModal, setShowAddChannelModal] = useState(false);
 
@@ -39,20 +39,18 @@ const Home = () => {
     initiateSocketConnection(socket, userId, setChannelId);
   }, [socket, userId]);
 
+  // useEffect(() => {
+  //   if (data) setChannels(data.channels);
+  //   else setChannels([]);
+  // }, [data]);
+
   useEffect(() => {
     switchChannel(socket, prevChannel, channelId);
   }, [socket, prevChannel, channelId]);
 
-  // useEffect(() => {
-  //   fetchChannels().then((res) => {
-  //     setChannels(res);
-  //     setChannelsLoading(false);
-  //   });
-
-  //   subscribeToMessages(socket, (err, data) => {
-  //     setMessages((messages) => [...messages, data]);
-  //   });
-  // }, []);
+  useEffect(() => {
+    subscribeToChannels(socket, setChannels);
+  }, [socket]);
 
   return (
     <div className='grid grid-cols-6 h-screen'>

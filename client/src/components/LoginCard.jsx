@@ -42,6 +42,7 @@ const LoginCard = () => {
             type='text'
             name='username'
             placeholder='Username'
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           ></input>
@@ -59,6 +60,7 @@ const LoginCard = () => {
             type='password'
             name='password'
             placeholder='Super Secret Password'
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           ></input>

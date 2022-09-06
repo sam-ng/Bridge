@@ -13,6 +13,17 @@ export const initiateSocketConnection = (socket, userId, setChannelId) => {
   });
 };
 
+export const addChannel = (socket, channelName, userId) => {
+  if (!socket.connected) return;
+  console.log(channelName);
+  socket.emit('add-channel', { channelName, userId });
+};
+
+export const deleteChannel = (socket, channelName, userId) => {
+  if (!socket.connected) return;
+  socket.emit('delete-channel', { channelName, userId });
+};
+
 export const switchChannel = (socket, prevChannel, channel) => {
   if (!socket.connected) return;
   socket.emit('channel-switch', { prevChannel, channel });
@@ -23,11 +34,16 @@ export const sendMessage = (socket, data, setMessages) => {
   socket.emit('message-send', data, () => setMessages(data));
 };
 
+export const subscribeToChannels = (socket, callback) => {
+  if (!socket.connected) return;
+  socket.on('channels-modified', (data) => {
+    callback(data);
+  });
+};
+
 export const subscribeToMessages = (socket, callback) => {
   if (!socket.connected) return;
   socket.on('message-receive', (data) => {
-    console.log('message received');
-    console.log(data);
     callback(null, data);
   });
 };

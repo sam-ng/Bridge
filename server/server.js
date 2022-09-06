@@ -81,6 +81,30 @@ io.on('connection', async (socket) => {
     // removeUser(name);
   });
 
+  socket.on('add-channel', async (data) => {
+    const { channelName, userId } = data;
+
+    if (!channelName || !userId) return;
+
+    try {
+      const user = await User.findById(userId).exec();
+      const newChannel = new Channel({
+        channelName,
+        users: [user],
+        messages: [],
+      });
+      await newChannel.save();
+      channels = [
+        ...channels,
+        { _id: newChannel._id, name: newChannel.name, users: newChannel.users },
+      ];
+      io.emit('channels-modified', channels);
+      console.log('Emitting channels have been modified.');
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
   socket.on('channel-switch', (data) => {
     const { prevChannel, channel } = data;
     console.log('prev' + prevChannel);

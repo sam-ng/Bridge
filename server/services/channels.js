@@ -30,7 +30,8 @@ const Channel = require('../models/channel');
 let channels = [];
 
 const initializeChannels = async () => {
-  channels = await Channel.find().exec();
+  const channelDocs = await Channel.find().exec();
+  channels = channelDocs.map(({ _id, name }) => ({ _id, name, users: [] }));
   return channels;
 };
 

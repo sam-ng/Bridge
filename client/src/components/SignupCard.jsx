@@ -87,6 +87,7 @@ const SignupCard = ({ setToken }) => {
             name='email'
             ref={emailRef}
             placeholder='Email'
+            value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           ></input>
@@ -104,6 +105,7 @@ const SignupCard = ({ setToken }) => {
             type='text'
             name='username'
             placeholder='Username'
+            value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           ></input>
@@ -121,6 +123,7 @@ const SignupCard = ({ setToken }) => {
             type='password'
             name='password'
             placeholder='Super Secret Password'
+            value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           ></input>

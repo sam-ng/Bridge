@@ -35,6 +35,15 @@ const initializeChannels = async () => {
   return channels;
 };
 
+const getChannels = () => {
+  return channels;
+};
+
+const setChannels = (newChannels) => {
+  channels = newChannels;
+  return channels;
+};
+
 const addUserToChannel = (channelId, name) => {
   channels.filter((c) => c.id === channelId).users?.push(name);
 };
@@ -52,8 +61,9 @@ const getChannelMessages = (channelId) => {
 };
 
 module.exports = {
-  channels,
   initializeChannels,
+  getChannels,
+  setChannels,
   addUserToChannel,
   removeUserFromChannel,
   getChannelMessages,

@@ -39,42 +39,44 @@ const Home = () => {
     initiateSocketConnection(socket, userId, setChannelId);
   }, [socket, userId]);
 
-  // useEffect(() => {
-  //   if (data) setChannels(data.channels);
-  //   else setChannels([]);
-  // }, [data]);
+  useEffect(() => {
+    if (data) setChannels(data.channels);
+    else setChannels([]);
+  }, [data]);
+
+  useEffect(() => {
+    if (socket.connected) subscribeToChannels(socket, setChannels);
+  }, [socket, socket.connected]);
 
   useEffect(() => {
     switchChannel(socket, prevChannel, channelId);
   }, [socket, prevChannel, channelId]);
 
-  useEffect(() => {
-    subscribeToChannels(socket, setChannels);
-  }, [socket]);
-
   return (
-    <div className='grid grid-cols-6 h-screen'>
-      {/* <div>Welcome to Bridge</div>
+    data && (
+      <div className='grid grid-cols-6 h-screen'>
+        {/* <div>Welcome to Bridge</div>
       <div>A Hub Dedicated to Connecting With Others </div> */}
 
-      {/* Regions */}
+        {/* Regions */}
 
-      <aside className='col-span-1 h-screen'>
-        <HubSidebar
-          channels={data?.channels}
-          channelsLoading={loading}
-          setChannelId={setChannelId}
-          setShowAddChannelModal={setShowAddChannelModal}
-        />
-        <AddChannelModal
-          isOpen={showAddChannelModal}
-          setShowAddChannelModal={setShowAddChannelModal}
-        />
-      </aside>
-      <main className='col-span-5 h-screen'>
-        <Chat channelId={channelId} userId={userId} />
-      </main>
-    </div>
+        <aside className='col-span-1 h-screen'>
+          <HubSidebar
+            channels={channels}
+            channelsLoading={loading}
+            setChannelId={setChannelId}
+            setShowAddChannelModal={setShowAddChannelModal}
+          />
+          <AddChannelModal
+            isOpen={showAddChannelModal}
+            setShowAddChannelModal={setShowAddChannelModal}
+          />
+        </aside>
+        <main className='col-span-5 h-screen'>
+          <Chat channelId={channelId} userId={userId} />
+        </main>
+      </div>
+    )
   );
 };
 

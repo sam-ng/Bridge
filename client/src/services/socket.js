@@ -15,7 +15,6 @@ export const initiateSocketConnection = (socket, userId, setChannelId) => {
 
 export const addChannel = (socket, channelName, userId) => {
   if (!socket.connected) return;
-  console.log(channelName);
   socket.emit('add-channel', { channelName, userId });
 };
 
@@ -35,14 +34,14 @@ export const sendMessage = (socket, data, setMessages) => {
 };
 
 export const subscribeToChannels = (socket, callback) => {
-  if (!socket.connected) return;
   socket.on('channels-modified', (data) => {
+    console.log('channels modified');
+    console.log(data);
     callback(data);
   });
 };
 
 export const subscribeToMessages = (socket, callback) => {
-  if (!socket.connected) return;
   socket.on('message-receive', (data) => {
     callback(null, data);
   });

@@ -16,8 +16,9 @@ const { connectDB } = require('./configs/db');
 
 const { addMessage } = require('./services/messages');
 const {
-  channels,
   initializeChannels,
+  getChannels,
+  setChannels,
   addUserToChannel,
   removeUserFromChannel,
 } = require('./services/channels');
@@ -66,7 +67,7 @@ const io = new Server(server, { cors: corsOptions });
 
 io.on('connection', async (socket) => {
   console.log('Initializing channels');
-  const channels = await initializeChannels();
+  await initializeChannels();
   console.log('Channels fetched');
   // console.log(channels);
 
@@ -89,17 +90,21 @@ io.on('connection', async (socket) => {
     try {
       const user = await User.findById(userId).exec();
       const newChannel = new Channel({
-        channelName,
+        name: channelName,
         users: [user],
         messages: [],
       });
       await newChannel.save();
-      channels = [
-        ...channels,
-        { _id: newChannel._id, name: newChannel.name, users: newChannel.users },
-      ];
-      io.emit('channels-modified', channels);
-      console.log('Emitting channels have been modified.');
+      setChannels([
+        ...getChannels(),
+        {
+          _id: newChannel._id,
+          name: newChannel.name,
+          users: newChannel.users,
+        },
+      ]);
+      io.emit('channels-modified', getChannels());
+      console.log('Emitting channels that have been modified.');
     } catch (err) {
       console.log(err);
     }

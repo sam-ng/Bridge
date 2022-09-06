@@ -26,7 +26,6 @@ const AddChannelModal = ({ isOpen, setShowAddChannelModal }) => {
   const userId = '630ed7be14c08c76e3183baa';
 
   const [channelName, setChannelName] = useState('');
-  console.log(channelName);
 
   const handleCloseModal = () => {
     setShowAddChannelModal(false);
@@ -39,6 +38,7 @@ const AddChannelModal = ({ isOpen, setShowAddChannelModal }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     addChannel(socket, channelName, userId);
+    setChannelName('');
   };
 
   useEffect(() => {

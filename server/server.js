@@ -110,10 +110,25 @@ io.on('connection', async (socket) => {
     }
   });
 
+  socket.on('delete-channel', async (data) => {
+    const { channelId, userId } = data;
+
+    if (!channelId || !userId) return;
+
+    try {
+      // const user = await User.findById(userId).exec();
+      await Channel.deleteOne({ _id: channelId });
+      setChannels(getChannels().filter((channel) => channel._id != channelId));
+      io.emit('channels-modified', getChannels());
+      console.log('Emitting channels that have been modified.');
+    } catch (err) {
+      console.log(err);
+    }
+  });
+
   socket.on('channel-switch', (data) => {
     const { prevChannel, channel } = data;
-    console.log('prev' + prevChannel);
-    console.log('next' + channel);
+
     if (prevChannel) {
       socket.leave(prevChannel);
       console.log(`${userId} has left channel ${prevChannel}`);

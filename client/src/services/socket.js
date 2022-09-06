@@ -18,9 +18,9 @@ export const addChannel = (socket, channelName, userId) => {
   socket.emit('add-channel', { channelName, userId });
 };
 
-export const deleteChannel = (socket, channelName, userId) => {
+export const deleteChannel = (socket, channelId, userId) => {
   if (!socket.connected) return;
-  socket.emit('delete-channel', { channelName, userId });
+  socket.emit('delete-channel', { channelId, userId });
 };
 
 export const switchChannel = (socket, prevChannel, channel) => {

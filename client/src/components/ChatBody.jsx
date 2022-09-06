@@ -11,8 +11,6 @@ const ChatBody = ({
 }) => {
   const currUser = 'user1';
 
-  console.log(messages);
-
   const chatEndRef = useRef(null);
 
   useEffect(() => {

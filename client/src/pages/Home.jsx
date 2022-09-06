@@ -23,8 +23,6 @@ const Home = () => {
     credentials: 'include',
   });
 
-  console.log(data);
-
   const [channels, setChannels] = useState([]);
   const [channelId, setChannelId] = useState('');
   const [showAddChannelModal, setShowAddChannelModal] = useState(false);

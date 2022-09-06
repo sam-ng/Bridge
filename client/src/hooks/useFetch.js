@@ -12,9 +12,6 @@ const useFetch = (initialUrl, initialOptions) => {
   const [url, setUrl] = useState(initialUrl);
   const [options, setOptions] = useState(initialOptions);
 
-  console.log(initialUrl);
-  console.log(url);
-
   const fetchReducer = (state, action) => {
     switch (action.type) {
       case 'LOADING':

@@ -40,11 +40,11 @@ const Chat = ({ channelId, userId }) => {
   }, [data]);
 
   useEffect(() => {
-    subscribeToMessages(socket, (err, data) => {
-      console.log(data);
-      setMessages((messages) => [...messages, data]);
-    });
-  }, [socket, data]);
+    if (socket.connected)
+      subscribeToMessages(socket, (err, data) => {
+        setMessages((messages) => [...messages, data]);
+      });
+  }, [socket, socket.connected]);
 
   return (
     <section className='grid grid-rows-18 h-full'>
@@ -55,22 +55,6 @@ const Chat = ({ channelId, userId }) => {
         userId={userId}
         setMessages={setMessages}
       />
-
-      {/* <Channels
-        name={name}
-        channelsLoading={channelsLoading}
-        channels={channels}
-        channel={channel}
-        setChannel={setChannel}
-      />
-      <ChatScreen
-        channel={channel}
-        messagesLoading={messagesLoading}
-        messages={messages}
-        message={message}
-        handleMessageSend={handleMessageSend}
-        handleMessageChange={handleMessageChange}
-      /> */}
     </section>
   );
 };

@@ -22,7 +22,6 @@ const ChatInputForm = ({ channelId, userId, setMessages }) => {
       userId,
     };
     sendMessage(socket, data, setMessages);
-    // setMessages((messages) => [...messages, data]);
     setMessage('');
   };
 

@@ -30,13 +30,12 @@ export const switchChannel = (socket, prevChannel, channel) => {
 
 export const sendMessage = (socket, data, setMessages) => {
   if (!socket.connected) return;
+  console.log('sending message');
   socket.emit('message-send', data, () => setMessages(data));
 };
 
 export const subscribeToChannels = (socket, callback) => {
   socket.on('channels-modified', (data) => {
-    console.log('channels modified');
-    console.log(data);
     callback(data);
   });
 };

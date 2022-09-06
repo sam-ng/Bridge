@@ -10,14 +10,7 @@ import ChatInputForm from './ChatInputForm';
 import { useSocket } from '../context/SocketProvider';
 import useFetch from '../hooks/useFetch';
 
-import {
-  initiateSocketConnection,
-  switchChannel,
-  fetchChannels,
-  fetchChannelMessages,
-  sendMessage,
-  subscribeToMessages,
-} from '../services/socket';
+import { subscribeToMessages } from '../services/socket';
 
 const Chat = ({ channelId, userId }) => {
   const socket = useSocket();

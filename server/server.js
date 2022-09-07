@@ -13,6 +13,7 @@ const { Server } = require('socket.io');
 const registerHandlers = require('./services/socket');
 
 const { connectDB } = require('./configs/db');
+const corsOptions = require('./configs/corsOptions');
 
 const { initializeChannels } = require('./services/channels');
 
@@ -21,10 +22,10 @@ const { requireAuth } = require('./middleware/authMiddleware');
 const authRoutes = require('./routes/authRoutes');
 const channelsRoutes = require('./routes/channelsRoutes');
 
-const corsOptions = {
-  origin: `${process.env.SCHEME}${process.env.DOMAIN}:${process.env.CLIENT_PORT}`,
-  credentials: true,
-};
+// const corsOptions = {
+//   origin: `${process.env.SCHEME}${process.env.DOMAIN}:${process.env.CLIENT_PORT}`,
+//   credentials: true,
+// };
 
 connectDB();
 

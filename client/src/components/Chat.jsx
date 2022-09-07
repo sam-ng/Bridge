@@ -40,7 +40,7 @@ const Chat = ({ channelId, userId }) => {
   }, [socket, socket.connected]);
 
   return (
-    <section className='grid grid-rows-18 h-full'>
+    <section className='grid grid-rows-16-fixed h-full'>
       <ChatHeader channelName={channelId} />
       {isLoading ? <div>Loading...</div> : <ChatBody messages={messages} />}
       <ChatInputForm

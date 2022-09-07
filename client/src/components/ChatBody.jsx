@@ -18,7 +18,7 @@ const ChatBody = ({
   }, [messages]);
 
   return (
-    <section className='row-span-16 flex flex-col p-3 overflow-y-auto scrollbar-thumb-gray-400 scrollbar-thumb-rounded scrollbar-track-white scrollbar-w-4 scrolling-touch'>
+    <section className='row-span-14 flex flex-col p-3 overflow-y-auto scrollbar-thumb-gray-400 scrollbar-thumb-rounded scrollbar-track-white scrollbar-w-4 scrolling-touch'>
       <div className='space-y-4 '>
         {messages?.map(({ content, user }, i) => {
           return (

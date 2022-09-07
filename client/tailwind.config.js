@@ -4,12 +4,13 @@ module.exports = {
     extend: {
       flex: {
         2: '2 2 auto',
-      },
-      flex: {
         3: '3 3 auto',
       },
       gridRow: {
-        'span-16': 'span 16 / span 16',
+        'span-14': 'span 14 / span 14',
+      },
+      gridTemplateRows: {
+        '16-fixed': 'repeat(auto-fill, calc(100% / 16))',
       },
       fontFamily: {
         Rubik: ['Rubik', 'sans-serif'],

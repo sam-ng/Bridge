@@ -71,7 +71,13 @@ const Home = () => {
           />
         </aside>
         <main className='col-span-5 h-screen'>
-          <Chat channelId={channelId} userId={userId} />
+          <Chat
+            channelId={channelId}
+            channelName={
+              channels.filter((channel) => channel._id === channelId)[0]?.name
+            }
+            userId={userId}
+          />
         </main>
       </div>
     )

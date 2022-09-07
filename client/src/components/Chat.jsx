@@ -12,7 +12,7 @@ import useFetch from '../hooks/useFetch';
 
 import { subscribeToMessages } from '../services/socket';
 
-const Chat = ({ channelId, userId }) => {
+const Chat = ({ channelId, channelName, userId }) => {
   const socket = useSocket();
   const [messages, setMessages] = useState([]);
 
@@ -41,7 +41,7 @@ const Chat = ({ channelId, userId }) => {
 
   return (
     <section className='grid grid-rows-16-fixed h-full'>
-      <ChatHeader channelName={channelId} />
+      <ChatHeader channelName={channelName} />
       {isLoading ? <div>Loading...</div> : <ChatBody messages={messages} />}
       <ChatInputForm
         channelId={channelId}

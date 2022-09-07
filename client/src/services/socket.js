@@ -1,5 +1,3 @@
-import { SERVER_URL } from '../constants/api';
-
 export const initiateSocketConnection = (socket, userId, setChannelId) => {
   console.log(`User ${userId} connected.`);
 
@@ -45,20 +43,3 @@ export const subscribeToMessages = (socket, callback) => {
     callback(null, data);
   });
 };
-
-// export const fetchChannels = async () => {
-//   const res = await fetch(`${SERVER_URL}/channels`, {
-//     headers: { 'Content-Type': 'application/json' },
-//     credentials: 'include',
-//   });
-//   const data = await res.json();
-//   return data.channels;
-// };
-
-// export const fetchChannelMessages = async (channel) => {
-//   const res = await fetch(`${SERVER_URL}/channels/${channel}/messages`, {
-//     credentials: 'include',
-//   });
-//   const data = await res.json();
-//   return data.messages;
-// };

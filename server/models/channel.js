@@ -2,14 +2,17 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const messageSchema = new Schema({
-  content: { type: String, required: [true, 'Empty message.'] },
-  user: {
-    type: mongoose.SchemaTypes.ObjectId,
-    ref: 'User',
-    required: [true, 'No user for this message.'],
+const messageSchema = new Schema(
+  {
+    content: { type: String, required: [true, 'Empty message.'] },
+    user: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'User',
+      required: [true, 'No user for this message.'],
+    },
   },
-});
+  { timestamps: { createdAt: 'created_at', updatedAt_: 'updated_at' } }
+);
 
 const channelSchema = new Schema({
   name: { type: String, required: [true, 'No channel name provided.'] },

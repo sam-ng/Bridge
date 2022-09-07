@@ -8,6 +8,7 @@ const getChannels = async (req, res) => {
 
 const getChannelMessages = async (req, res) => {
   const { channelId } = req.params;
+  if (!channelId) return res.sendStatus(400);
   const channel = await Channel.findById(channelId)
     .populate({
       path: 'messages',

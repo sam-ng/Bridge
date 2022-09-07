@@ -1,4 +1,6 @@
 const { Router } = require('express');
+
+const loginLimiter = require('../middleware/loginLimiter');
 const {
   signup,
   login,
@@ -9,7 +11,7 @@ const {
 const router = Router();
 
 router.post('/signup', signup);
-router.post('/login', login);
+router.post('/login', loginLimiter, login);
 router.get('/logout', logout);
 router.get('/refresh', refreshToken);
 

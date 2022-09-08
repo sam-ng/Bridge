@@ -1,12 +1,17 @@
 import { useState } from 'react';
 
 import useSocket from '../hooks/useSocket';
+import useAuth from '../hooks/useAuth';
 
 import { sendMessage } from '../services/socket';
 
-const ChatInputForm = ({ channelId, userId, setMessages }) => {
+const ChatInputForm = ({ channelId, setMessages }) => {
   const socket = useSocket();
   const [message, setMessage] = useState('');
+  const { auth } = useAuth();
+  const {
+    user: { _id: userId },
+  } = auth;
 
   const handleMessageChange = (e) => {
     setMessage(e.target.value);

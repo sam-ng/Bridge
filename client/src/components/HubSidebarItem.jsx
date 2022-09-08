@@ -23,7 +23,6 @@ const HubSideBarItem = ({ image, url, channelId, setChannelId, children }) => {
   return (
     <li
       className='flex flex-row items-center justify-between rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700'
-      key={channelId}
       onMouseEnter={() => setShowDeleteBtn(true)}
       onMouseLeave={() => setShowDeleteBtn(false)}
     >

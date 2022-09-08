@@ -63,7 +63,7 @@ const useFetchPrivate = (initialUrl, initialOptions = {}) => {
       dispatch({ type: 'FETCHED', payload: data });
     } catch (err) {
       if (cancelRequest.current) return;
-      console.log('errorr');
+      console.log(err);
       dispatch({ type: 'ERROR', payload: err.message });
     }
   }, [url, options, auth?.accessToken, refresh]);

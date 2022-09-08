@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import useSocket from '../hooks/useSocket';
+import useAuth from '../hooks/useAuth';
+
 import { addChannel } from '../services/socket';
 
 const overlay = {
@@ -23,7 +25,10 @@ const modal = {
 const AddChannelModal = ({ isOpen, setShowAddChannelModal }) => {
   const modalRef = useRef();
   const socket = useSocket();
-  const userId = '630ed7be14c08c76e3183baa';
+  const { auth } = useAuth();
+  const {
+    user: { _id: userId },
+  } = auth;
 
   const [channelName, setChannelName] = useState('');
 

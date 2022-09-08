@@ -40,8 +40,6 @@ const LoginCard = () => {
       // TODO: Add error handling here
       console.log(err);
     }
-
-    setAuth({});
   };
 
   return (

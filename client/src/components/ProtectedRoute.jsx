@@ -5,7 +5,7 @@ const ProtectedRoute = ({ redirectPath = '/login' }) => {
   const { auth } = useAuth();
   const location = useLocation();
 
-  return auth?.username ? (
+  return auth?.user ? (
     <Outlet />
   ) : (
     <Navigate to={redirectPath} state={{ from: location }} replace />

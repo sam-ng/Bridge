@@ -13,7 +13,7 @@ import useFetchPrivate from '../hooks/useFetchPrivate';
 
 import { subscribeToMessages } from '../services/socket';
 
-const Chat = ({ channelId, channelName, userId }) => {
+const Chat = ({ channelId, channelName }) => {
   const socket = useSocket();
   const [messages, setMessages] = useState([]);
 
@@ -44,11 +44,7 @@ const Chat = ({ channelId, channelName, userId }) => {
     <section className='grid grid-rows-16-fixed h-full'>
       <ChatHeader channelName={channelName} />
       {isLoading ? <div>Loading...</div> : <ChatBody messages={messages} />}
-      <ChatInputForm
-        channelId={channelId}
-        userId={userId}
-        setMessages={setMessages}
-      />
+      <ChatInputForm channelId={channelId} setMessages={setMessages} />
     </section>
   );
 };

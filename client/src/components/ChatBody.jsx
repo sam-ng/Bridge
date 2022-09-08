@@ -1,15 +1,14 @@
 import { useEffect, useRef } from 'react';
+
+import useAuth from '../hooks/useAuth';
+
 import ChatMessage from './ChatMessage';
 
-const ChatBody = ({
-  channel,
-  // messagesLoading,
-  messages,
-  // message,
-  // handleMessageSend,
-  // handleMessageChange
-}) => {
-  const currUser = 'user1';
+const ChatBody = ({ channel, messages }) => {
+  const { auth } = useAuth();
+  const {
+    user: { _id: userId },
+  } = auth;
 
   const chatEndRef = useRef(null);
 
@@ -20,14 +19,13 @@ const ChatBody = ({
   return (
     <section className='row-span-14 flex flex-col p-3 overflow-y-auto scrollbar-thumb-gray-400 scrollbar-thumb-rounded scrollbar-track-white scrollbar-w-4 scrolling-touch'>
       <div className='space-y-4 '>
-        {messages?.map(({ content, user }, i) => {
+        {messages?.map(({ _id, content, user }, i) => {
           return (
             <ChatMessage
+              key={_id}
               content={content}
-              isCurrentUser={currUser === user?.username}
-              renderProfile={
-                i == 0 || messages[i - 1].user?.username !== user?.username
-              }
+              isCurrentUser={user?._id === userId}
+              renderProfile={i == 0 || messages[i - 1].user?._id !== user?._id}
             />
           );
         })}

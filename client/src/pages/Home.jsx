@@ -5,6 +5,7 @@ import { SERVER_URL } from '../constants/api';
 
 import useFetch from '../hooks/useFetch';
 import useFetchPrivate from '../hooks/useFetchPrivate';
+import useAuth from '../hooks/useAuth';
 
 import HubSidebar from '../components/HubSidebar';
 import AddChannelModal from '../components/AddChannelModal';
@@ -27,13 +28,14 @@ const Home = () => {
       credentials: 'include',
     }
   );
+  const { auth } = useAuth();
+  const {
+    user: { _id: userId },
+  } = auth;
 
   const [channels, setChannels] = useState([]);
   const [channelId, setChannelId] = useState('');
   const [showAddChannelModal, setShowAddChannelModal] = useState(false);
-
-  const user = 'User1';
-  const userId = '630ed7be14c08c76e3183baa';
 
   const socket = useSocket();
   const prevChannel = usePreviousChannel(channelId);
@@ -81,7 +83,6 @@ const Home = () => {
             channelName={
               channels.filter((channel) => channel._id === channelId)[0]?.name
             }
-            userId={userId}
           />
         </main>
       </div>

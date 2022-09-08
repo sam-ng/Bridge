@@ -23,6 +23,7 @@ const HubSidebar = ({
           ) : (
             channels?.map((channel) => (
               <HubSideBarItem
+                key={channel._id}
                 url='#'
                 image={kirigiri_llama}
                 channelId={channel._id}

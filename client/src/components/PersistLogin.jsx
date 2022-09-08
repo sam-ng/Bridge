@@ -30,7 +30,7 @@ const PersistLogin = () => {
     !accessToken ? verifyRefreshToken() : setIsLoading(false);
 
     return () => (isMounted = false);
-  }, []);
+  }, [accessToken, refresh]);
 
   return <>{isLoading ? <p>Loading...</p> : <Outlet />} </>;
 };

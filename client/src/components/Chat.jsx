@@ -8,7 +8,8 @@ import ChatBody from './ChatBody';
 import ChatInputForm from './ChatInputForm';
 
 import useSocket from '../hooks/useSocket';
-import useFetch from '../hooks/useFetch';
+// import useFetch from '../hooks/useFetch';
+import useFetchPrivate from '../hooks/useFetchPrivate';
 
 import { subscribeToMessages } from '../services/socket';
 
@@ -16,7 +17,7 @@ const Chat = ({ channelId, channelName, userId }) => {
   const socket = useSocket();
   const [messages, setMessages] = useState([]);
 
-  const { data, isLoading, error, setUrl } = useFetch(
+  const { data, isLoading, error, setUrl } = useFetchPrivate(
     `${SERVER_URL}/channels/${channelId}/messages`,
     {
       credentials: 'include',

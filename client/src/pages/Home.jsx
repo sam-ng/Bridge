@@ -28,8 +28,6 @@ const Home = () => {
     }
   );
 
-  console.log(error);
-
   const [channels, setChannels] = useState([]);
   const [channelId, setChannelId] = useState('');
   const [showAddChannelModal, setShowAddChannelModal] = useState(false);

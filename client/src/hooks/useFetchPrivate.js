@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useEffect, useReducer, useRef, useState, useCallback } from 'react';
 
 import useAuth from './useAuth';
 import useRefreshToken from './useRefreshToken';
@@ -32,12 +32,12 @@ const useFetchPrivate = (initialUrl, initialOptions = {}) => {
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       dispatch({ type: 'LOADING' });
 
       // Add access token to Authorization header
-      if (auth && auth.accessToken) {
+      if (auth?.accessToken) {
         let headers = options && options.headers ? options.headers : {};
         headers['Authorization'] = `Bearer ${auth.accessToken}`;
         options.headers = headers;
@@ -46,9 +46,9 @@ const useFetchPrivate = (initialUrl, initialOptions = {}) => {
       let response = await fetch(url, options);
 
       //  If access token rejected, see if refreshing it works
-
       if (response.status === 403) {
         const newAccessToken = await refresh();
+        console.log(newAccessToken);
         let headers = options && options.headers ? options.headers : {};
         headers['Authorization'] = `Bearer ${newAccessToken}`;
         options.headers = headers;
@@ -63,9 +63,10 @@ const useFetchPrivate = (initialUrl, initialOptions = {}) => {
       dispatch({ type: 'FETCHED', payload: data });
     } catch (err) {
       if (cancelRequest.current) return;
+      console.log('errorr');
       dispatch({ type: 'ERROR', payload: err.message });
     }
-  };
+  }, [url, options, auth?.accessToken, refresh]);
 
   useEffect(() => {
     if (!url) return;
@@ -77,7 +78,7 @@ const useFetchPrivate = (initialUrl, initialOptions = {}) => {
     return () => {
       cancelRequest.current = true;
     };
-  }, [url, options]);
+  }, [url, options, fetchData]);
 
   return { ...state, setUrl, setOptions };
 };

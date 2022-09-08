@@ -1,7 +1,7 @@
 // import { FaEllipsisV } from 'react-icons/fa';
 import { FaTimes } from 'react-icons/fa';
 
-import { useSocket } from '../context/SocketProvider';
+import useSocket from '../hooks/useSocket';
 
 import { deleteChannel } from '../services/socket';
 

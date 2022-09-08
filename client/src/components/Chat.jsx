@@ -7,7 +7,7 @@ import Channels from './Channels';
 import ChatBody from './ChatBody';
 import ChatInputForm from './ChatInputForm';
 
-import { useSocket } from '../context/SocketProvider';
+import useSocket from '../hooks/useSocket';
 import useFetch from '../hooks/useFetch';
 
 import { subscribeToMessages } from '../services/socket';

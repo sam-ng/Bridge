@@ -8,7 +8,8 @@ import useFetch from '../hooks/useFetch';
 import HubSidebar from '../components/HubSidebar';
 import AddChannelModal from '../components/AddChannelModal';
 import Chat from '../components/Chat';
-import { useSocket } from '../context/SocketProvider';
+
+import useSocket from '../hooks/useSocket';
 import usePreviousChannel from '../hooks/usePreviousChannel';
 
 import {

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useSocket } from '../context/SocketProvider';
+import useSocket from '../hooks/useSocket';
 
 import { sendMessage } from '../services/socket';
 

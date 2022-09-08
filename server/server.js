@@ -17,7 +17,7 @@ const corsOptions = require('./configs/corsOptions');
 
 const { initializeChannels } = require('./services/channels');
 
-const { requireAuth } = require('./middleware/authMiddleware');
+const requireAuth = require('./middleware/authMiddleware');
 
 const authRoutes = require('./routes/authRoutes');
 const channelsRoutes = require('./routes/channelsRoutes');

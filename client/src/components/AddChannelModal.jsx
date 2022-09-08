@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import { useSocket } from '../context/SocketProvider';
+import useSocket from '../hooks/useSocket';
 import { addChannel } from '../services/socket';
 
 const overlay = {

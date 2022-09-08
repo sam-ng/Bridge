@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import useAuth from '../hooks/useAuth';
 
+import { SERVER_URL } from '../constants/api';
+
 const LoginCard = () => {
   const { setAuth } = useAuth();
 
@@ -16,11 +18,31 @@ const LoginCard = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    try {
+      const res = await fetch(`${SERVER_URL}/auth/login`, {
+        method: 'POST',
+        mode: 'cors',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      const { accessToken } = await res.json();
+      setAuth({ username, accessToken });
+
+      console.log(accessToken);
+      setUsername('');
+      setPassword('');
+
+      navigate(from, { replace: true });
+    } catch (err) {
+      // TODO: Add error handling here
+      console.log(err);
+    }
+
     setAuth({});
-    alert('You have submitted the form.');
   };
 
   return (

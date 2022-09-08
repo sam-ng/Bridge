@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 const Channels = ({ name, channelsLoading, channels, channel, setChannel }) => {
   return (
     <aside className='border-solid border-r border-black'>

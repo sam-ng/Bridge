@@ -2,6 +2,7 @@ import { FaPlus } from 'react-icons/fa';
 import kirigiri_llama from '../assets/images/kirigiri_llama.png';
 
 import HubSideBarItem from './HubSidebarItem';
+import LogoutButton from './LogoutButton';
 
 const HubSidebar = ({
   channels,
@@ -33,12 +34,15 @@ const HubSidebar = ({
           )}
           <li key='add'>
             <button
-              className='w-full flex items-center text-base font-normal  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 p-2'
+              className='w-full flex items-center text-base font-normal rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 p-2'
               onClick={handleAddChannel}
             >
               <FaPlus className='w-12 h-12 rounded-full text-green-900' />
               <span className='ml-3'>Add Channel</span>
             </button>
+          </li>
+          <li key='logout'>
+            <LogoutButton />
           </li>
         </ul>
       </div>

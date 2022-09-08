@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
-const accessMaxAge = 30; // 30 seconds
+const accessMaxAge = 10; // 10 seconds
 const refreshMaxAge = 3 * 24 * 60 * 60; // 3 days
 
 const handleAuthErrors = (err) => {
@@ -71,9 +71,6 @@ const login = async (req, res) => {
     if (!user) return res.sendStatus(401);
 
     const match = await bcrypt.compare(password, user.password);
-    console.log(password);
-    console.log(user.password);
-    console.log(match);
     if (!match) return res.sendStatus(401);
 
     const accessToken = createAccessToken({ username: user.username });

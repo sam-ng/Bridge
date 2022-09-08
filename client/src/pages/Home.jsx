@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { SERVER_URL } from '../constants/api';
 
 import useFetch from '../hooks/useFetch';
+import useFetchPrivate from '../hooks/useFetchPrivate';
 
 import HubSidebar from '../components/HubSidebar';
 import AddChannelModal from '../components/AddChannelModal';
@@ -19,10 +20,15 @@ import {
 } from '../services/socket';
 
 const Home = () => {
-  const { data, loading, error, setUrl } = useFetch(`${SERVER_URL}/channels`, {
-    headers: { 'Content-Type': 'application/json' },
-    credentials: 'include',
-  });
+  const { data, loading, error, setUrl } = useFetchPrivate(
+    `${SERVER_URL}/channels`,
+    {
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    }
+  );
+
+  console.log(error);
 
   const [channels, setChannels] = useState([]);
   const [channelId, setChannelId] = useState('');

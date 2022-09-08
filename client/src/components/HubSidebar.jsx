@@ -31,7 +31,7 @@ const HubSidebar = ({
               </HubSideBarItem>
             ))
           )}
-          <li>
+          <li key='add'>
             <button
               className='w-full flex items-center text-base font-normal  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 p-2'
               onClick={handleAddChannel}

@@ -8,8 +8,8 @@ const useRefreshToken = () => {
     const res = await fetch(`${SERVER_URL}/auth/refresh`, {
       credentials: 'include',
     });
-    const data = await res.json();
-    setAuth((prevState) => ({ ...prevState, accessToken: data.accessToken }));
+    const { username, accessToken } = await res.json();
+    setAuth((prevState) => ({ ...prevState, username, accessToken }));
     return res.accessToken;
   };
 

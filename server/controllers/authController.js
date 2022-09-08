@@ -88,7 +88,7 @@ const login = async (req, res) => {
       // sameSite: 'None',
       maxAge: refreshMaxAge * 1000,
     });
-    res.status(200).json({ accessToken });
+    res.status(200).json({ username: user.username, accessToken });
   } catch (err) {
     console.log(err);
     const errors = handleAuthErrors(err);
@@ -129,7 +129,7 @@ const refreshToken = async (req, res) => {
       if (!user) return res.sendStatus(401);
 
       const accessToken = createAccessToken({ username: user.username });
-      res.status(200).json({ accessToken });
+      res.status(200).json({ username: decoded.username, accessToken });
     }
   );
 };

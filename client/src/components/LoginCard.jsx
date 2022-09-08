@@ -29,10 +29,9 @@ const LoginCard = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
-      const { accessToken } = await res.json();
-      setAuth({ username, accessToken });
+      const authData = await res.json();
+      setAuth(authData);
 
-      console.log(accessToken);
       setUsername('');
       setPassword('');
 
@@ -69,7 +68,7 @@ const LoginCard = () => {
             required
           ></input>
         </div>
-        <div className='mb-6'>
+        <div className='mb-2'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'
             htmlFor='password'
@@ -77,7 +76,7 @@ const LoginCard = () => {
             Password
           </label>
           <input
-            className='shadow appearance-none border rounded w-full px-3 py-2 mb-3 text-gray-700 leading-tight focus:shadow-outline'
+            className='shadow appearance-none border rounded w-full px-3 py-2 text-gray-700 leading-tight focus:shadow-outline'
             id='password'
             type='password'
             name='password'
@@ -87,13 +86,7 @@ const LoginCard = () => {
             required
           ></input>
         </div>
-        <div className='flex items-center justify-between'>
-          <button
-            className='bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded focus:shadow-outline'
-            type='submit'
-          >
-            Sign In
-          </button>
+        <div className='flex items-center justify-between py-2 mb-6'>
           <a
             className='font-bold text-sm text-blue-500 hover:text-blue-800'
             href='/signup'
@@ -106,6 +99,14 @@ const LoginCard = () => {
           >
             Forgot Password?
           </a>
+        </div>
+        <div className='flex items-center'>
+          <button
+            className='w-full bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded focus:shadow-outline'
+            type='submit'
+          >
+            Sign In
+          </button>
         </div>
       </form>
     </div>

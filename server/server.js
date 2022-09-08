@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 app.use('/auth', authRoutes);
 
 // Private Routes
-// app.use(requireAuth);
+app.use(requireAuth);
 app.get('/protected', (req, res) => {
   res.send('Access protected.');
 });

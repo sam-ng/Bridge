@@ -19,7 +19,7 @@ const HubSideBarItem = ({ image, url, channelId, setChannelId, children }) => {
   };
 
   return (
-    <li className='flex flex-row items-center justify-between'>
+    <li className='flex flex-row items-center justify-between' key={channelId}>
       <a
         className='w-full flex items-center text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 p-2'
         href={url}

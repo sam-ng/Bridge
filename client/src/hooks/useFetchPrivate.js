@@ -1,7 +1,12 @@
 import { useEffect, useReducer, useRef, useState } from 'react';
 
-const useFetchPrivate = (initialUrl, initialOptions) => {
+import useAuth from './useAuth';
+import useRefreshToken from './useRefreshToken';
+
+const useFetchPrivate = (initialUrl, initialOptions = {}) => {
   let cancelRequest = useRef(false);
+  const { auth } = useAuth();
+  const refresh = useRefreshToken();
 
   const initialState = {
     data: undefined,
@@ -27,31 +32,45 @@ const useFetchPrivate = (initialUrl, initialOptions) => {
 
   const [state, dispatch] = useReducer(fetchReducer, initialState);
 
+  const fetchData = async () => {
+    try {
+      dispatch({ type: 'LOADING' });
+
+      // Add access token to Authorization header
+      if (auth && auth.accessToken) {
+        let headers = options && options.headers ? options.headers : {};
+        headers['Authorization'] = `Bearer ${auth.accessToken}`;
+        options.headers = headers;
+      }
+
+      let response = await fetch(url, options);
+
+      //  If access token rejected, see if refreshing it works
+
+      if (response.status === 403) {
+        const newAccessToken = await refresh();
+        let headers = options && options.headers ? options.headers : {};
+        headers['Authorization'] = `Bearer ${newAccessToken}`;
+        options.headers = headers;
+
+        response = await fetch(url, options);
+        if (response.status === 403)
+          dispatch({ type: 'ERROR', payload: 'Unauthorized.' });
+      }
+
+      const data = await response.json();
+      if (cancelRequest.current) return;
+      dispatch({ type: 'FETCHED', payload: data });
+    } catch (err) {
+      if (cancelRequest.current) return;
+      dispatch({ type: 'ERROR', payload: err.message });
+    }
+  };
+
   useEffect(() => {
     if (!url) return;
 
     cancelRequest.current = false;
-
-    const fetchData = async () => {
-      try {
-        dispatch({ type: 'LOADING' });
-
-        // Add access token to Authorization header
-        if (auth && auth.accessToken) {
-          let headers = options ? options.headers : {};
-          headers['Authorization'] = `Bearer ${auth.accessToken}`;
-          options.headers = headers;
-        }
-
-        const response = await fetch(url, options);
-        const data = await response.json();
-        if (cancelRequest.current) return;
-        dispatch({ type: 'FETCHED', payload: data });
-      } catch (err) {
-        if (cancelRequest.current) return;
-        dispatch({ type: 'ERROR', payload: err.message });
-      }
-    };
 
     fetchData();
 

@@ -128,19 +128,13 @@ const SignupCard = ({ setToken }) => {
             required
           ></input>
         </div>
-        <div className='flex items-center justify-between'>
+        <div className='flex items-center'>
           <button
-            className='bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded focus:shadow-outline'
+            className='w-full bg-blue-500 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded focus:shadow-outline'
             type='submit'
           >
             Sign Up
           </button>
-          <a
-            className='font-bold text-sm text-blue-500 hover:text-blue-800'
-            href='/signup'
-          >
-            Forgot Password?
-          </a>
         </div>
       </form>
     </div>

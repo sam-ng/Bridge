@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import useAuth from '../hooks/useAuth';
 
-import { SERVER_URL } from '../constants/api';
+import { loginUser } from '../services/login';
 
 const LoginCard = () => {
   const { setAuth } = useAuth();
@@ -15,21 +15,14 @@ const LoginCard = () => {
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch(`${SERVER_URL}/auth/login`, {
-        method: 'POST',
-        mode: 'cors',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-      });
-      const authData = await res.json();
+      const authData = await loginUser({ username, password });
       setAuth(authData);
 
       setUsername('');
@@ -48,6 +41,9 @@ const LoginCard = () => {
         className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
         onSubmit={handleSubmit}
       >
+        <div className='mb-6'>
+          <h3 className='text-center font-bold text-lg'>Welcome back!</h3>
+        </div>
         <div className='mb-4'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'

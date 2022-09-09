@@ -15,6 +15,9 @@ module.exports = {
       fontFamily: {
         Rubik: ['Rubik', 'sans-serif'],
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+      },
     },
   },
   plugins: [],

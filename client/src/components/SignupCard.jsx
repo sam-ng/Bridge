@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import validator from 'validator';
 
 import { signupUser } from '../services/login';
@@ -17,14 +17,12 @@ const SignupCard = ({ setToken }) => {
   const [validPassword, setValidPassword] = useState(false);
   const [passwordFocus, setPasswordFocus] = useState(false);
 
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState('');
   const emailRef = useRef();
 
   const [errorMessages, setErrorMessages] = useState({});
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || '/';
 
   useEffect(() => {
     emailRef.current.focus();
@@ -48,7 +46,9 @@ const SignupCard = ({ setToken }) => {
     e.preventDefault();
 
     const validUsername = USER_REGEX.test(username);
-    const validPassword = USER_REGEX.test(password);
+    // TODO: update this -> hardcoded for ease of testing
+    // const validPassword = PASSWORD_REGEX.test(password);
+    const validPassword = true;
     const validEmail = validator.isEmail(email);
 
     if (!validUsername || !validPassword || !validEmail) {
@@ -58,10 +58,7 @@ const SignupCard = ({ setToken }) => {
 
     try {
       const res = await signupUser({ username, password, email });
-      console.log(res);
-      const res2 = await fetch('http://localhost:8000/protected');
-      console.log(res2);
-      navigate(from, { replace: true });
+      navigate('/login', { replace: true });
     } catch (err) {
       console.log(err);
     }
@@ -73,6 +70,9 @@ const SignupCard = ({ setToken }) => {
         className='bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4'
         onSubmit={handleSubmit}
       >
+        <div className='mb-6'>
+          <h3 className='text-center font-bold text-lg'>Create an account</h3>
+        </div>
         <div className='mb-4'>
           <label
             className='block text-gray-700 text-sm font-bold mb-2'

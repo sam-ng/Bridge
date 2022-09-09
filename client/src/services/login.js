@@ -1,11 +1,22 @@
 const SERVER_URL = `${process.env.REACT_APP_SERVER_SCHEME}${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`;
 
-export const signupUser = async (credentials) => {
+export const signupUser = async (body) => {
   return fetch(`${SERVER_URL}/auth/signup`, {
     method: 'POST',
+    mode: 'cors',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'include',
-    body: JSON.stringify(credentials),
+    body: JSON.stringify(body),
+  }).then((data) => data.json());
+};
+
+export const loginUser = async (body) => {
+  return fetch(`${SERVER_URL}/auth/login`, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(body),
   }).then((data) => data.json());
 };
 

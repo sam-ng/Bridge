@@ -57,7 +57,7 @@ const SignupCard = ({ setToken }) => {
     }
 
     try {
-      const res = await signupUser({ username, password, email });
+      await signupUser({ username, password, email });
       navigate('/login', { replace: true });
     } catch (err) {
       console.log(err);

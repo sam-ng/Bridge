@@ -25,7 +25,7 @@ const ChatBody = ({ channel, messages }) => {
               key={_id}
               content={content}
               isCurrentUser={user?._id === userId}
-              renderProfile={i == 0 || messages[i - 1].user?._id !== user?._id}
+              renderProfile={i === 0 || messages[i - 1].user?._id !== user?._id}
             />
           );
         })}

@@ -26,7 +26,7 @@ const Chat = ({ channelId, channelName }) => {
 
   useEffect(() => {
     setUrl(`${SERVER_URL}/channels/${channelId}/messages`);
-  }, [channelId]);
+  }, [channelId, setUrl]);
 
   useEffect(() => {
     if (data) setMessages(data.messages);

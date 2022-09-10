@@ -10,6 +10,7 @@ import useAuth from '../hooks/useAuth';
 import HubSidebar from '../components/HubSidebar';
 import AddChannelModal from '../components/AddChannelModal';
 import Chat from '../components/Chat';
+import Dashboard from '../components/Dashboard';
 
 import useSocket from '../hooks/useSocket';
 import usePreviousChannel from '../hooks/usePreviousChannel';
@@ -34,7 +35,7 @@ const Home = () => {
   } = auth;
 
   const [channels, setChannels] = useState([]);
-  const [channelId, setChannelId] = useState('');
+  const [channelId, setChannelId] = useState();
   const [showAddChannelModal, setShowAddChannelModal] = useState(false);
 
   const socket = useSocket();
@@ -78,12 +79,16 @@ const Home = () => {
           />
         </aside>
         <main className='col-span-5 h-screen'>
-          <Chat
-            channelId={channelId}
-            channelName={
-              channels.filter((channel) => channel._id === channelId)[0]?.name
-            }
-          />
+          {channelId === undefined ? (
+            <Dashboard />
+          ) : (
+            <Chat
+              channelId={channelId}
+              channelName={
+                channels.filter((channel) => channel._id === channelId)[0]?.name
+              }
+            />
+          )}
         </main>
       </div>
     )

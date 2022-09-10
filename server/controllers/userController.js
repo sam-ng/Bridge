@@ -11,7 +11,7 @@ const addMacro = async (req, res) => {
       .json({ message: 'Username or a macro field is missing.' });
 
   try {
-    const user = await User.findOne({ username }).exec();
+    let user = await User.findOne({ username }).exec();
     if (!user) return res.sendStatus(400);
 
     const existingMacro = user.macros.filter(
@@ -25,8 +25,9 @@ const addMacro = async (req, res) => {
       user.macros.push({ macroName, macroKeys, macroOutput });
     } else user.macros = [...remaining, { macroName, macroKeys, macroOutput }];
     await user.save();
+    user = await User.findOne({ username }).exec();
 
-    return res.sendStatus(200);
+    return res.status(200).json({ macros: user.macros });
   } catch (err) {
     console.log(err);
     return res.sendStatus(400);
@@ -41,14 +42,15 @@ const deleteMacro = async (req, res) => {
       .json({ message: 'Username or macro key sequence is missing.' });
 
   try {
-    const user = await User.findOne({ username }).exec();
+    let user = await User.findOne({ username }).exec();
     if (!user) return res.sendStatus(400);
 
     await User.updateOne(
       { username, 'macros.macroKeys': macroKeys },
       { $pull: { macros: { macroKeys } } }
     );
-    return res.sendStatus(200);
+    user = await User.findOne({ username }).exec();
+    return res.status(200).json({ macros: user.macros });
   } catch (err) {
     console.log(err);
     return res.sendStatus(400);

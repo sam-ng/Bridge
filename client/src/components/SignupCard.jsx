@@ -8,7 +8,7 @@ const USER_REGEX = /^[a-zA-z][a-zA-Z0-9-_]{0,99}$/;
 const PASSWORD_REGEX =
   /^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
-const SignupCard = ({ setToken }) => {
+const SignupCard = () => {
   const [username, setUsername] = useState('');
   const [validUsername, setValidUsername] = useState(false);
   const [usernameFocus, setUsernameFocus] = useState(false);

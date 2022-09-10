@@ -1,4 +1,4 @@
-const SERVER_URL = `${process.env.REACT_APP_SERVER_SCHEME}${process.env.REACT_APP_SERVER_DOMAIN}:${process.env.REACT_APP_SERVER_PORT}`;
+import { SERVER_URL } from '../constants/api';
 
 export const signupUser = async (body) => {
   return fetch(`${SERVER_URL}/auth/signup`, {

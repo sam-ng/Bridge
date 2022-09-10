@@ -12,6 +12,9 @@ module.exports = {
       gridTemplateRows: {
         '16-fixed': 'repeat(auto-fill, calc(100% / 16))',
       },
+      maxWidth: {
+        'screen-80': '80vw',
+      },
       fontFamily: {
         Rubik: ['Rubik', 'sans-serif'],
       },

@@ -42,7 +42,7 @@ const PORT = process.env.PORT || 8000;
 app.get('/', (req, res) => {
   res.send('hello');
 });
-app.use('/user', userRoutes);
+
 app.use('/auth', authRoutes);
 
 // Private Routes
@@ -51,6 +51,7 @@ app.get('/protected', (req, res) => {
   res.send('Access protected.');
 });
 
+app.use('/user', userRoutes);
 app.use('/channels', channelsRoutes);
 
 const server = http.createServer(app);

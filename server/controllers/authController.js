@@ -50,6 +50,7 @@ const signup = async (req, res) => {
       password: hashedPassword,
       email,
       refreshToken: '',
+      macros: [],
     });
 
     res.status(201).json({ message: `User ${user.username} was created.` });
@@ -85,9 +86,10 @@ const login = async (req, res) => {
       // sameSite: 'None',
       maxAge: refreshMaxAge * 1000,
     });
-    res
-      .status(200)
-      .json({ user: { _id: user._id, username: user.username }, accessToken });
+    res.status(200).json({
+      user: { _id: user._id, username: user.username, macros: user.macros },
+      accessToken,
+    });
   } catch (err) {
     console.log(err);
     const errors = handleAuthErrors(err);
@@ -128,12 +130,10 @@ const refreshToken = async (req, res) => {
       if (!user) return res.sendStatus(401);
 
       const accessToken = createAccessToken({ username: user.username });
-      res
-        .status(200)
-        .json({
-          user: { _id: user._id, username: user.username },
-          accessToken,
-        });
+      res.status(200).json({
+        user: { _id: user._id, username: user.username, macros: user.macros },
+        accessToken,
+      });
     }
   );
 };

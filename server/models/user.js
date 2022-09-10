@@ -16,6 +16,13 @@ const userSchema = new Schema({
     unique: true,
     validate: [isEmail, 'Please enter a valid email.'],
   },
+  macros: [
+    {
+      macroName: { type: String },
+      macroKeys: { type: String },
+      macroOutput: { type: String },
+    },
+  ],
   refreshToken: String,
 });
 

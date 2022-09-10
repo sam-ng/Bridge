@@ -20,6 +20,7 @@ const { initializeChannels } = require('./services/channels');
 const requireAuth = require('./middleware/authMiddleware');
 
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 const channelsRoutes = require('./routes/channelsRoutes');
 
 // const corsOptions = {
@@ -41,7 +42,7 @@ const PORT = process.env.PORT || 8000;
 app.get('/', (req, res) => {
   res.send('hello');
 });
-
+app.use('/user', userRoutes);
 app.use('/auth', authRoutes);
 
 // Private Routes

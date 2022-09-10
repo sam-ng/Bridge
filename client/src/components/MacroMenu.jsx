@@ -9,7 +9,7 @@ const MacroMenu = () => {
 
   return (
     <div className='relative w-0 h-0'>
-      <div className='absolute -top-44 h-40 bg-white overflow-y-auto rounded shadow-md px-8 py-8 flex flex-col items-center'>
+      <div className='absolute -top-44 h-40 bg-white overflow-y-auto rounded shadow-lg px-8 py-8 flex flex-col items-center'>
         <form
           className='flex flex-row w-4/5 p-2 mb-6 border-gray-200 items-center justify-center'
           onSubmit={handleAddMacro}
